@@ -188,4 +188,8 @@ public abstract class NoosaInputProcessor<T> implements InputProcessor {
 			return this;
 		}
 	}
+
+	public void rotate(boolean landscape){
+		//Does nothing by default, see android module
+	}
 }

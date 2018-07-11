@@ -43,4 +43,9 @@ public class AndroidInputProcessor extends PDInputProcessor {
 		eventTouch.dispatch(null);
 		return true;
 	}
+
+	@Override
+	public void rotate(boolean landscape){
+		AndroidLauncher.rotate(landscape);
+	}
 }

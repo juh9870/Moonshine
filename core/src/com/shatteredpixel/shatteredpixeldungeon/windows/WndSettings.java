@@ -22,6 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -42,6 +43,8 @@ public class WndSettings extends WndTabbed {
 
 	private static final String TXT_SWITCH_FULL = "Switch to fullscreen";
 	private static final String TXT_SWITCH_WIN = "Switch to windowed";
+	private static final String TXT_SWITCH_PORT = "Switch to portrait";
+	private static final String TXT_SWITCH_LAND = "Switch to landscape";
 
 	private static final String TXT_BINDINGS	= "Key bindings";
 
@@ -140,13 +143,24 @@ public class WndSettings extends WndTabbed {
 				add(scale);
 			}
 
-			RedButton btnResolution = new RedButton(Gdx.graphics.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL ) {
-				@Override
-				protected void onClick() {
-					SPDSettings.fullscreen(!SPDSettings.fullscreen());
-				}
-			};
-			btnResolution.enable( DeviceCompat.supportsFullScreen() );
+			RedButton btnResolution;
+			if (!SharedLibraryLoader.isAndroid) {
+				btnResolution = new RedButton(Gdx.graphics.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL) {
+					@Override
+					protected void onClick() {
+						SPDSettings.fullscreen(!SPDSettings.fullscreen());
+					}
+				};
+				btnResolution.enable( DeviceCompat.supportsFullScreen() );
+			} else {
+				btnResolution = new RedButton(SPDSettings.landscape() ? TXT_SWITCH_PORT : TXT_SWITCH_LAND){
+					@Override
+					protected void onClick() {
+						SPDSettings.landscape(!SPDSettings.landscape());
+						ShatteredPixelDungeon.instance.getInputProcessor().rotate(SPDSettings.landscape());
+					}
+				};
+			}
 			btnResolution.setRect(0, scale.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 			add(btnResolution);
 

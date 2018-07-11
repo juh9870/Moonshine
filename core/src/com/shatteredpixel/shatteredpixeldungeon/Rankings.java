@@ -43,7 +43,7 @@ import java.util.Comparator;
 import java.util.UUID;
 
 public enum Rankings {
-	
+
 	INSTANCE;
 	
 	public static final int TABLE_SIZE	= 11;

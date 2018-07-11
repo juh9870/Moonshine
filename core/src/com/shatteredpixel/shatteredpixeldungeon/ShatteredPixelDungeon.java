@@ -192,7 +192,7 @@ public class ShatteredPixelDungeon extends Game<GameAction> {
 				Assets.SND_BEE,
 				Assets.SND_DEGRADE,
 				Assets.SND_MIMIC );
-
+		getInputProcessor().rotate(SPDSettings.landscape());
 		if (!SPDSettings.systemFont()) {
 			RenderedText.setFont("pixelfont.ttf");
 		} else {

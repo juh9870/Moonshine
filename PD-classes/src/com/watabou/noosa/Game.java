@@ -25,6 +25,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.watabou.glscripts.Script;
@@ -96,6 +97,7 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 		density = Gdx.graphics.getDensity();
 		this.inputProcessor.init();
 		Gdx.input.setInputProcessor(this.inputProcessor);
+		Gdx.input.setCatchBackKey(true);
 
 		// TODO: Is this right?
 		onSurfaceCreated();
@@ -254,23 +256,40 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	}
 
 	public File getFilesDir() {
-		return Gdx.files.external(basePath).file();
+		File f;
+		if(!SharedLibraryLoader.isAndroid){
+			f = Gdx.files.external(basePath).file();
+		} else {
+			f = Gdx.files.local("files/").file();
+		}
+		return f;
+	}
+
+	private FileHandle getFile(String fileName){
+
+		FileHandle fh;
+		if (!SharedLibraryLoader.isAndroid){
+			fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
+		} else {
+			fh = Gdx.files.local("files/"+fileName);
+		}
+		return fh;
 	}
 
 	public boolean deleteFile(String fileName) {
-		final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
+		final FileHandle fh = getFile(fileName);
 		return fh.exists() && fh.delete();
 	}
 
 	public InputStream openFileInput(String fileName) throws IOException {
-		final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
+		final FileHandle fh = getFile(fileName);
 		if (!fh.exists())
 			throw new IOException("File " + fileName + " doesn't exist");
 		return fh.read();
 	}
 
 	public OutputStream openFileOutput(String fileName) {
-		final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
+		final FileHandle fh = getFile(fileName);
 		return fh.write(false);
 	}
 

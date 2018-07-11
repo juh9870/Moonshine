@@ -20,8 +20,10 @@
  */
 package com.watabou.pd.android;
 
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -29,10 +31,21 @@ import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
 import com.watabou.utils.PDPlatformSupport;
 
 public class AndroidLauncher extends AndroidApplication {
+
+	public static AndroidLauncher instance;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().detectAll().build();
+
+		StrictMode.setThreadPolicy(policy);
+
+		instance=this;
+
 		String version;
 		int versionCode;
 		try {
@@ -43,5 +56,9 @@ public class AndroidLauncher extends AndroidApplication {
 			versionCode = 0;
 		}
 		initialize(new ShatteredPixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, null, new AndroidInputProcessor())), config);
+	}
+
+	public static void rotate(boolean landscape){
+		instance.setRequestedOrientation (landscape ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }

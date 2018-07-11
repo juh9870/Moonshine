@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.Game;
@@ -81,11 +82,13 @@ public class SPDSettings extends GameSettings {
 	}
 	
 	public static void landscape( boolean value ){
-		//put( KEY_LANDSCAPE, value );
+		put( KEY_LANDSCAPE, value );
 	}
 	
 	public static boolean landscape() {
-		return Game.width > Game.height;
+		if (!SharedLibraryLoader.isAndroid)
+			return Game.width > Game.height;
+		else return getBoolean(KEY_LANDSCAPE,true);
 	}
 
 	/*public static void powerSaver( boolean value ){

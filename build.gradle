@@ -8,6 +8,7 @@ buildscript {
 	dependencies {
 		classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
 		classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.2.0'
+		classpath 'com.android.tools.build:gradle:2.3.0'
 	}
 }
 
@@ -46,7 +47,7 @@ project(":desktop") {
 	}
 }
 
-/*project(":android") {
+project(":android") {
 	apply plugin: "android"
 
 	configurations { natives }
@@ -62,7 +63,7 @@ project(":desktop") {
 	}
 }
 
-project(":ios") {
+/*project(":ios") {
 	apply plugin: "java"
 	apply plugin: "robovm"
 
