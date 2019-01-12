@@ -82,7 +82,8 @@ public class WndItem extends Window {
 		
 		if (Dungeon.hero.isAlive() && options) {
 			ArrayList<RedButton> line = new ArrayList<>();
-			for (final String action:item.actions( Dungeon.hero )) {
+			ArrayList<String> actions = item.actions(Dungeon.hero);
+			for (final String action:actions) {
 				
 				RedButton btn = new RedButton( Messages.get(item, "ac_" + action), 8 ) {
 					@Override
@@ -90,7 +91,7 @@ public class WndItem extends Window {
 						hide();
 						if (owner != null && owner.parent != null) owner.hide();
 						item.execute( Dungeon.hero, action );
-					};
+					}
 				};
 				btn.setSize( btn.reqWidth(), BUTTON_HEIGHT );
 				if (x + btn.width() > width || line.size() == 3) {

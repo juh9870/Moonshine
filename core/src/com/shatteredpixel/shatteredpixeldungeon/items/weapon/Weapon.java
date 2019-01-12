@@ -27,27 +27,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Elastic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Exhausting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Fragile;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Friendly;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Sacrificial;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Wayward;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Dazzling;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Eldritch;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Stunning;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Venomous;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vorpal;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.*;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -62,6 +43,9 @@ abstract public class Weapon extends KindOfWeapon {
 	public float    ACC = 1f;	// Accuracy modifier
 	public float	DLY	= 1f;	// Speed modifier
 	public int      RCH = 1;    // Reach modifier (only applies to melee hits)
+    {
+        tier=1;
+    }
 
 	public enum Augment {
 		SPEED   (0.7f, 0.67f),
@@ -300,13 +284,6 @@ abstract public class Weapon extends KindOfWeapon {
 			return false;
 		}
 
-		@Override
-		public void restoreFromBundle( Bundle bundle ) {
-		}
-
-		@Override
-		public void storeInBundle( Bundle bundle ) {
-		}
 		
 		public abstract ItemSprite.Glowing glowing();
 		

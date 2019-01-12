@@ -17,8 +17,8 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
-import com.watabou.noosa.TextureFilm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.watabou.noosa.TextureFilm;
 
 public class MimicSprite extends MobSprite {
 	

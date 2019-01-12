@@ -62,7 +62,8 @@ public class ScrollOfTeleportation extends Scroll {
 			GLog.w( Messages.get(this, "no_tele") );
 			return;
 		}
-		
+
+		GameScene.aimHelper=false;
 		GameScene.selectCell(new CellSelector.Listener() {
 			@Override
 			public void onSelect(Integer target) {

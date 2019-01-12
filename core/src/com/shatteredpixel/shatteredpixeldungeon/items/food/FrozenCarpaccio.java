@@ -20,17 +20,7 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.items.food;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;

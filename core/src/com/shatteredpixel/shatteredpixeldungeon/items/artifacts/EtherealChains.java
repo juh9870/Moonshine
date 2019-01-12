@@ -90,6 +90,7 @@ public class EtherealChains extends Artifact {
 				QuickSlotButton.cancel();
 
 			} else {
+				GameScene.aimHelper=false;
 				GameScene.selectCell(caster);
 			}
 

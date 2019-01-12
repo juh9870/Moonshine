@@ -22,13 +22,10 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -38,7 +35,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Tripple.TrippleEffectWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -53,7 +52,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public abstract class Wand extends Item {
+public abstract class Wand extends MeleeWeapon {
 
 	private static final int USAGES_TO_KNOW    = 20;
 
@@ -76,6 +75,7 @@ public abstract class Wand extends Item {
 	{
 		defaultAction = AC_ZAP;
 		usesTargeting = true;
+		weight=0.3f;
 	}
 	
 	@Override
@@ -97,6 +97,8 @@ public abstract class Wand extends Item {
 			
 			curUser = hero;
 			curItem = this;
+			GameScene.aimHelper=true;
+			curBallistica=collisionProperties;
 			GameScene.selectCell( zapper );
 			
 		}
@@ -346,7 +348,7 @@ public abstract class Wand extends Item {
 		
 		@Override
 		public void onSelect( Integer target ) {
-			
+
 			if (target != null) {
 				
 				//FIXME this safety check shouldn't be necessary
@@ -354,6 +356,11 @@ public abstract class Wand extends Item {
 				final Wand curWand;
 				if (curItem instanceof Wand) {
 					curWand = (Wand) Wand.curItem;
+					// TODO: reformat to use effects when all tripple wands implemented
+					if (curWand instanceof TrippleEffectWand){
+						TrippleEffectWand.zapper.onSelect(target);
+						return;
+					}
 				} else {
 					return;
 				}

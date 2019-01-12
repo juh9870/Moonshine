@@ -22,9 +22,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Gauntlet extends MeleeWeapon {
+public class Gauntlet extends MeleeWeapon implements Shield {
 	
 	{
 		image = ItemSpriteSheet.GAUNTLETS;

@@ -21,26 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Chrome;
-import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndGameInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndStartGame;
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.NinePatch;
-import com.watabou.noosa.RenderedText;
+import com.watabou.noosa.*;
 import com.watabou.noosa.ui.Button;
 
 import java.util.ArrayList;

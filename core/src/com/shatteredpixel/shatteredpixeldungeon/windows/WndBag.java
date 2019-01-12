@@ -30,11 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -43,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.BlandfruitBush;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant.Seed;
@@ -62,6 +57,7 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.RectF;
+
 
 public class WndBag extends WndTabbed {
 	
@@ -210,7 +206,8 @@ public class WndBag extends WndTabbed {
 		
 		// Equipped items
 		Belongings stuff = Dungeon.hero.belongings;
-		placeItem( stuff.weapon != null ? stuff.weapon : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
+		placeItem( stuff.weapon.right != null ? stuff.weapon.right : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
+		placeItem( stuff.weapon.left != null ? stuff.weapon.left : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
 		placeItem( stuff.armor != null ? stuff.armor : new Placeholder( ItemSpriteSheet.ARMOR_HOLDER ) );
 		placeItem( stuff.misc1 != null ? stuff.misc1 : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
 		placeItem( stuff.misc2 != null ? stuff.misc2 : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
@@ -342,8 +339,9 @@ public class WndBag extends WndTabbed {
 		
 		private static final int NORMAL		= 0x9953564D;
 		private static final int EQUIPPED	= 0x9991938C;
-		
+
 		private Item item;
+		private Image frame;
 		private ColorBlock bg;
 		
 		public ItemButton( Item item ) {
@@ -354,7 +352,6 @@ public class WndBag extends WndTabbed {
 			if (item instanceof Gold) {
 				bg.visible = false;
 			}
-			
 			width = SLOT_WIDTH;
 			height = SLOT_HEIGHT;
 		}
@@ -363,6 +360,10 @@ public class WndBag extends WndTabbed {
 		protected void createChildren() {
 			bg = new ColorBlock( SLOT_WIDTH, SLOT_HEIGHT, NORMAL );
 			add( bg );
+
+			frame=new Image(Assets.HANDFRAME);
+			frame.visible=false;
+			add(frame);
 			
 			super.createChildren();
 		}
@@ -371,7 +372,8 @@ public class WndBag extends WndTabbed {
 		protected void layout() {
 			bg.x = x;
 			bg.y = y;
-			
+			frame.y=y+SLOT_HEIGHT-frame.height();
+			frame.x=x;
 			super.layout();
 		}
 		
@@ -380,8 +382,15 @@ public class WndBag extends WndTabbed {
 			
 			super.item( item );
 			if (item != null) {
-
-				bg.texture( TextureCache.createSolid( item.isEquipped( Dungeon.hero ) ? EQUIPPED : NORMAL ) );
+				frame.visible=false;
+			    int color = NORMAL;
+			    if (item.isEquipped(Dungeon.hero)){
+			        color=EQUIPPED;
+			        if (Dungeon.hero.belongings.weapon.currentWeapon()==item){
+			        	frame.visible=true;
+					}
+                }
+				bg.texture( TextureCache.createSolid( color ) );
 				if (item.cursed && item.cursedKnown) {
 					bg.ra = +0.3f;
 					bg.ga = -0.15f;
@@ -409,7 +418,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.SCROLL && (item instanceof Scroll) ||
 						mode == Mode.UNIDED_POTION_OR_SCROLL && (!item.isIdentified() && (item instanceof Scroll || item instanceof Potion)) ||
 						mode == Mode.EQUIPMENT && (item instanceof EquipableItem) ||
-						mode == Mode.ALCHEMY && ((item instanceof Seed && !(item instanceof BlandfruitBush.Seed)) || (item instanceof Blandfruit && ((Blandfruit) item).potionAttrib == null) || (item.getClass() == Dart.class)) ||
+						mode == Mode.ALCHEMY && ((item instanceof Seed && !(item instanceof BlandfruitBush.Seed)) || (item instanceof Blandfruit && ((Blandfruit) item).potionAttrib == null)) ||
 						mode == Mode.ALL
 					);
 					//extra logic for cursed weapons or armor

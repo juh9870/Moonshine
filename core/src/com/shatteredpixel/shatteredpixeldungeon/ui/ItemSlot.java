@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.ui.Button;
 
 public class ItemSlot extends Button<GameAction> {
@@ -49,6 +50,7 @@ public class ItemSlot extends Button<GameAction> {
 	private static final float ENABLED	= 1.0f;
 	private static final float DISABLED	= 0.3f;
 	
+	protected NinePatch  frame;
 	protected ItemSprite icon;
 	protected Item       item;
 	protected BitmapText topLeft;
@@ -83,7 +85,9 @@ public class ItemSlot extends Button<GameAction> {
 	public static final Item REMAINS = new Item() {
 		public int image() { return ItemSpriteSheet.REMAINS; };
 	};
-	
+
+	private boolean gray;
+
 	public ItemSlot() {
 		super();
 		icon.visible(false);
@@ -157,6 +161,7 @@ public class ItemSlot extends Button<GameAction> {
 			if (item != null) {
 				icon.frame(item.image());
 				icon.glow(item.glowing());
+				gray = item.isPlaceholder();
 			}
 			updateText();
 			return;
@@ -170,13 +175,15 @@ public class ItemSlot extends Button<GameAction> {
 			icon.visible(false);
 
 			updateText();
-			
+
 		} else {
-			
+			gray = item.isPlaceholder();
+
 			enable(true);
 			icon.visible(true);
 
 			icon.view( item );
+
 			updateText();
 		}
 	}
@@ -264,7 +271,7 @@ public class ItemSlot extends Button<GameAction> {
 		
 		active = value;
 		
-		float alpha = value ? ENABLED : DISABLED;
+		float alpha = value&&!gray ? ENABLED : DISABLED;
 		icon.alpha( alpha );
 		topLeft.alpha( alpha );
 		topRight.alpha( alpha );
@@ -282,5 +289,9 @@ public class ItemSlot extends Button<GameAction> {
 		if (BR) add( bottomRight );
 		else remove( bottomRight );
 		iconVisible = BR;
+	}
+
+	public void highlight(){
+
 	}
 }

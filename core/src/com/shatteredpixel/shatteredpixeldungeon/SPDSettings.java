@@ -31,8 +31,6 @@ import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.GameSettings;
 
-import java.util.Locale;
-
 public class SPDSettings extends GameSettings {
 
 	//Version info
@@ -140,7 +138,8 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_FLIPTOOLBAR	= "flipped_ui";
 	public static final String KEY_FLIPTAGS 	= "flip_tags";
 	public static final String KEY_BARMODE		= "toolbar_mode";
-	
+	public static final String KEY_AIMHELPER	= "aimhelper";
+
 	public static void quickSlots( int value ){ put( KEY_QUICKSLOTS, value ); }
 	
 	public static int quickSlots(){ return getInt( KEY_QUICKSLOTS, 4, 0, 4); }
@@ -156,6 +155,18 @@ public class SPDSettings extends GameSettings {
 	}
 	
 	public static boolean flipTags(){ return getBoolean(KEY_FLIPTAGS, false); }
+
+	public static void aimhelper( boolean value) {
+		put(KEY_AIMHELPER, value );
+		aimhelper=value;
+	}
+
+	private static Boolean aimhelper;
+	public static boolean aimhelper(){
+		if (aimhelper==null)
+			aimhelper=getBoolean(KEY_AIMHELPER, true);
+		return aimhelper;
+	}
 	
 	public static void toolbarMode( String value ) {
 		put( KEY_BARMODE, value );
@@ -265,5 +276,7 @@ public class SPDSettings extends GameSettings {
 		return getBoolean(KEY_SYSTEMFONT,
 				(language() == Languages.KOREAN || language() == Languages.CHINESE));
 	}
+
+	public static boolean debug = false;
 	
 }

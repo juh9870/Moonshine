@@ -20,28 +20,15 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.Rankings;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BadgesList;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ItemSlot;
-import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.watabou.noosa.ColorBlock;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.RenderedText;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
 
@@ -221,8 +208,11 @@ public class WndRanking extends WndTabbed {
 			super();
 			
 			Belongings stuff = Dungeon.hero.belongings;
-			if (stuff.weapon != null) {
-				addItem( stuff.weapon );
+			if (stuff.weapon.right != null) {
+				addItem( stuff.weapon.right );
+			}
+			if (stuff.weapon.left != null) {
+				addItem( stuff.weapon.left );
 			}
 			if (stuff.armor != null) {
 				addItem( stuff.armor );

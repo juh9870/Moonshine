@@ -63,7 +63,7 @@ public class DisarmingTrap extends Trap{
 
 		if (Dungeon.hero.pos == pos){
 			Hero hero = Dungeon.hero;
-			KindOfWeapon weapon = hero.belongings.weapon;
+			KindOfWeapon weapon = hero.belongings.weapon.currentWeapon();
 
 			if (weapon != null && !(weapon instanceof Knuckles) && !weapon.cursed) {
 

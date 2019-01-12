@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -583,7 +584,7 @@ public class DriedRose extends Artifact {
 				block += Random.NormalIntRange( rose.armor.DRMin(), rose.armor.DRMax());
 			}
 			if (rose != null && rose.weapon != null){
-				block += Random.NormalIntRange( 0, rose.weapon.defenseFactor( this ));
+				block += Random.NormalIntRange( 0, (rose.weapon instanceof Shield?((Shield)rose.weapon).defenseFactor( this ):0));
 			}
 			return block;
 		}

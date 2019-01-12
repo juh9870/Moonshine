@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;
+import com.watabou.utils.Storeable;
 
 import java.util.HashSet;
 
@@ -36,8 +37,10 @@ public abstract class Actor implements Bundlable {
 	
 	public static final float TICK	= 1f;
 
+	@Storeable
 	private float time;
 
+	@Storeable
 	private int id = 0;
 
 	//default priority values for general actor categories
@@ -82,14 +85,12 @@ public abstract class Actor implements Bundlable {
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
-		bundle.put( TIME, time );
-		bundle.put( ID, id );
+		Bundlable.super.storeInBundle(bundle);
 	}
 
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		time = bundle.getFloat( TIME );
-		id = bundle.getInt( ID );
+		Bundlable.super.restoreFromBundle(bundle);
 	}
 
 	private static int nextID = 1;

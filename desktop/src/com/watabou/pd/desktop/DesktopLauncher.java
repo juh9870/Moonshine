@@ -34,14 +34,15 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
-			version = "0.6.5c";
+			version = "1.0.0";
 		}
 
 		int versionCode;
 		try {
 			versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
-			versionCode = 264;
+			versionCode = Integer.MAX_VALUE;
+			SPDSettings.debug=true;
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -73,7 +74,7 @@ public class DesktopLauncher {
 		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
 
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
-		config.title = "Shattered Pixel Dungeon";
+		config.title = "Moonshine Pixel Dungeon";
 
 		new LwjglApplication(new ShatteredPixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())

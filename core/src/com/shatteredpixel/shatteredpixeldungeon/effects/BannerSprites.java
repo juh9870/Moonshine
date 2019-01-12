@@ -30,14 +30,16 @@ public class BannerSprites {
 		BOSS_SLAIN,
 		GAME_OVER,
 		SELECT_YOUR_HERO,
-		PIXEL_DUNGEON_SIGNS
+		PIXEL_DUNGEON_SIGNS,
+		CLOUD_LEFT,
+		CLOUD_RIGHT
 	};
 
 	public static Image get( Type type ) {
 		Image icon = new Image( Assets.BANNERS );
 		switch (type) {
 			case PIXEL_DUNGEON:
-				icon.frame( icon.texture.uvRect( 0, 0, 132, 90 ) );
+				icon.frame( icon.texture.uvRect( 0, 0, 93, 57 ) );
 				break;
 			case BOSS_SLAIN:
 				icon.frame( icon.texture.uvRect( 0, 90, 128, 125 ) );
@@ -50,6 +52,12 @@ public class BannerSprites {
 				break;
 			case PIXEL_DUNGEON_SIGNS:
 				icon.frame( icon.texture.uvRect( 133, 0, 255, 90 ) );
+				break;
+			case CLOUD_LEFT:
+				icon.frame( icon.texture.uvRect( 106, 3, 151, 32 ) );
+				break;
+			case CLOUD_RIGHT:
+				icon.frame( icon.texture.uvRect( 180, 0, 229, 34 ) );
 				break;
 		}
 		return icon;

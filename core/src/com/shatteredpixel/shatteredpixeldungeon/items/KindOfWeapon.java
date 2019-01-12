@@ -23,26 +23,73 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.utils.Random;
+import com.watabou.utils.Storeable;
 
 abstract public class KindOfWeapon extends EquipableItem {
 	
 	protected static final float TIME_TO_EQUIP = 1f;
-	
+
+	@Storeable
+	public float weight = 0.5f;
+
 	@Override
 	public boolean isEquipped( Hero hero ) {
-		return hero.belongings.weapon == this;
+		return hero.belongings.weapon.isEquipped(this);
 	}
-	
 	@Override
-	public boolean doEquip( Hero hero ) {
+	public boolean doEquip( Hero hero ){
+		if (hero.belongings.weapon.right!=null&&hero.belongings.weapon.left!=null) {
+			KindOfWeapon w0 = this;
+			KindOfWeapon w1 = hero.belongings.weapon.right;
+			KindOfWeapon w2 = hero.belongings.weapon.left;
+			GameScene.show(
+					 new WndOptions(Messages.get(KindOfWeapon.class, "unequip_title"),
+							Messages.get(KindOfWeapon.class, "unequip_message"),
+							Messages.titleCase(w1.toString()),
+							Messages.titleCase(w2.toString())) {
 
+						@Override
+						protected void onSelect(int index) {
+
+							KindOfWeapon equipped = (index == 0 ? w1 : w2);
+							if (!hero.belongings.weapon.canEquip(w0,index)){
+								GLog.n( Messages.get(KindOfWeapon.class, "big",Messages.titleCase(w0.name()),Messages.titleCase((index == 0 ? w2 : w1).name())));
+								return;
+							}
+							//temporarily give 1 extra backpack spot to support swapping with a full inventory
+							hero.belongings.backpack.size++;
+							if (equipped.doUnequip(hero, true, false)) {
+								//fully re-execute rather than just call doEquip as we want to preserve quickslot
+								execute(hero, AC_EQUIP);
+							}
+							hero.belongings.backpack.size--;
+						}
+					});
+
+			return false;
+		} else {
+			if (hero.belongings.weapon.canEquip(this)) {
+				return doEquip(hero, hero.belongings.weapon.freeSlot());
+			} else {
+				GLog.n( Messages.get(KindOfWeapon.class, "big",Messages.titleCase(this.name()),Messages.titleCase(hero.belongings.weapon.currentWeapon().name())));
+				return false;
+			}
+
+		}
+	}
+
+	public boolean doEquip( Hero hero, int slot ) {
+
+		if (slot==-1)return false;
 		detachAll( hero.belongings.backpack );
 		
-		if (hero.belongings.weapon == null || hero.belongings.weapon.doUnequip( hero, true )) {
+		if (hero.belongings.weapon.canEquip(this,slot)&&(hero.belongings.weapon.get(slot) == null || hero.belongings.weapon.get(slot).doUnequip( hero, true ))) {
 			
-			hero.belongings.weapon = this;
+			hero.belongings.weapon.set(this,slot);
 			activate( hero );
 
 			updateQuickslot();
@@ -65,9 +112,13 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	@Override
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+		if (!hero.belongings.weapon.isEquipped(this))return false;
 		if (super.doUnequip( hero, collect, single )) {
-
-			hero.belongings.weapon = null;
+			if (hero.belongings.weapon.right==this){
+				hero.belongings.weapon.right=null;
+			} else {
+				hero.belongings.weapon.left=null;
+			}
 			return true;
 
 		} else {
@@ -102,10 +153,6 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int reachFactor( Char owner ){
 		return 1;
-	}
-
-	public int defenseFactor( Char owner ) {
-		return 0;
 	}
 	
 	public int proc( Char attacker, Char defender, int damage ) {

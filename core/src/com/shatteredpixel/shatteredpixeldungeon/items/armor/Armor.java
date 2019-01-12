@@ -32,27 +32,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.AntiEntropy;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Displacement;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Metabolism;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Multiplicity;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Overgrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Stench;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Affection;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Entanglement;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Flow;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Obfuscation;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Repulsion;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Stone;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.*;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -98,8 +79,6 @@ public class Armor extends EquipableItem {
 	public Augment augment = Augment.NONE;
 	public Glyph glyph;
 	private BrokenSeal seal;
-	
-	public int tier;
 	
 	private int hitsToKnow = HITS_TO_KNOW;
 	
@@ -555,14 +534,6 @@ public class Armor extends EquipableItem {
 
 		public boolean curse() {
 			return false;
-		}
-		
-		@Override
-		public void restoreFromBundle( Bundle bundle ) {
-		}
-
-		@Override
-		public void storeInBundle( Bundle bundle ) {
 		}
 		
 		public abstract ItemSprite.Glowing glowing();

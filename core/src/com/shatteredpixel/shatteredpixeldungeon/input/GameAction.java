@@ -29,6 +29,7 @@ public enum GameAction {
 	REST("Wait"),
 	SEARCH("Search"),
 	RESUME("Resume motion"),
+	WEAPON("Switch weapon"),
 
 	BACKPACK("Backpack"),
 	QUICKSLOT_1("Quickslot 1"),

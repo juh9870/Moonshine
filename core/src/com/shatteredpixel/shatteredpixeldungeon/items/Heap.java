@@ -20,7 +20,6 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -428,6 +427,7 @@ public class Heap implements Bundlable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
+		Bundlable.super.restoreFromBundle(bundle);
 		pos = bundle.getInt( POS );
 		seen = bundle.getBoolean( SEEN );
 		type = Type.valueOf( bundle.getString( TYPE ) );
@@ -447,6 +447,7 @@ public class Heap implements Bundlable {
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
+		Bundlable.super.storeInBundle(bundle);
 		bundle.put( POS, pos );
 		bundle.put( SEEN, seen );
 		bundle.put( TYPE, type.toString() );

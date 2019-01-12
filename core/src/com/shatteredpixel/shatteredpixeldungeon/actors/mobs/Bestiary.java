@@ -20,8 +20,6 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;

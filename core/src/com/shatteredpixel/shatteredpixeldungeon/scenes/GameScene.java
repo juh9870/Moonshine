@@ -21,22 +21,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.badlogic.gdx.utils.IntMap;
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
-import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.EmoIcon;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
-import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
-import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -48,63 +38,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.DiscardedItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.CustomTiledVisual;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTerrainTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTileSheet;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonWallsTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.FogOfWar;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.GridTileMap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.TerrainFeaturesTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.WallBlockingTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Banner;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BusyIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.CharHealthIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.GameLog;
-import com.shatteredpixel.shatteredpixeldungeon.ui.LootIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ResumeIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
-import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Toast;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.*;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.*;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag.Mode;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndGame;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoCell;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoItem;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoMob;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoPlant;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoTrap;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndStory;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
-import com.watabou.input.NoosaInputProcessor;
 import com.watabou.glwrap.Blending;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.NoosaScript;
-import com.watabou.noosa.NoosaScriptNoLighting;
-import com.watabou.noosa.SkinnedBlock;
-import com.watabou.noosa.Visual;
+import com.watabou.input.NoosaInputProcessor;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.GameMath;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.io.IOException;
@@ -130,8 +85,12 @@ public class GameScene extends PixelScene {
 	
 	private BusyIndicator busy;
 	
-	private static CellSelector cellSelector;
-	
+	private static CellSelector 			cellSelector;
+	private static Integer					targetCell;
+	private static Integer					aimCell;
+	private static Image 					targetCellCross;
+	public  static boolean 					aimHelper;
+
 	private Group terrain;
 	private Group customTiles;
 	private Group levelVisuals;
@@ -168,7 +127,7 @@ public class GameScene extends PixelScene {
 		Music.INSTANCE.play( Assets.TUNE, true );
 
 		SPDSettings.lastClass(Dungeon.hero.heroClass.ordinal());
-		
+
 		super.create();
 		Camera.main.zoom( GameMath.gate(minZoom, defaultZoom + SPDSettings.zoom(), maxZoom));
 
@@ -289,6 +248,10 @@ public class GameScene extends PixelScene {
 		mobs.add( hero );
 		
 		add( cellSelector = new CellSelector( tiles ) );
+
+		targetCellCross = Icons.TARGET.get();
+		add(targetCellCross);
+		targetCellCross.visible=false;
 
 		pane = new StatusPane();
 		pane.camera = uiCamera;
@@ -858,11 +821,90 @@ public class GameScene extends PixelScene {
 	public static void handleCell( int cell ) {
 		cellSelector.select( cell );
 	}
-	
-	public static void selectCell( CellSelector.Listener listener ) {
+
+	public static void setTarget(int cell){
+		targetCell=cell;
+		targetCellCross.visible=true;
+		Char c = Actor.findChar(cell);
+		if (c!=null) {
+			if (c!=QuickSlotButton.lastTarget) {
+				QuickSlotButton.cancel();
+				QuickSlotButton.target(c);
+			}
+			targetCellCross.center(c.sprite.center());
+		} else {
+			QuickSlotButton.cancel();
+			PointF p = DungeonTilemap.tileToWorld( cell );
+			float y = p.y + DungeonTilemap.SIZE / 2;
+			if (Dungeon.level.map[cell + Dungeon.level.width()] == Terrain.DOOR ||
+					Dungeon.level.map[cell + Dungeon.level.width()] == Terrain.OPEN_DOOR ||
+					Dungeon.level.solid[cell + Dungeon.level.width()]) {
+//				y-=DungeonTilemap.SIZE / 4;
+			}
+			targetCellCross.center(new PointF(p.x + DungeonTilemap.SIZE / 2, y));
+		}
+	}
+	public static void hideTarget(){
+		targetCellCross.visible=false;
+		aimCell=null;
+		targetCell=null;
+	}
+
+	public static void selectCell( final CellSelector.Listener listener ) {
+		if (aimHelper && SPDSettings.aimhelper() && listener!=defaultCellListener) {
+			cellSelector.listener = new CellSelector.Listener() {
+				@Override
+				public void onSelect(Integer cell) {
+					if (cell!=null){
+						if (cell.equals(targetCell)){
+							listener.onSelect(aimCell);
+							GameScene.ready();
+							hideTarget();
+							return;
+						}
+						Ballistica b = new Ballistica(Dungeon.hero.pos,cell,Item.curBallistica);
+						if ((b.collisionPos.equals(cell)&&(QuickSlotButton.lastTarget!=null&&QuickSlotButton.lastTarget.pos==cell))||
+								cell.equals(aimCell)){
+							listener.onSelect(cell);
+							GameScene.ready();
+							hideTarget();
+							return;
+						}
+						aimCell=cell;
+
+						if (Dungeon.level.visited[b.collisionPos]||Dungeon.level.mapped[b.collisionPos])
+							setTarget(b.collisionPos);
+						else {
+							for (int i = b.path.size()-1;i>=0;i--){
+								if(Dungeon.level.visited[b.path.get(i)]||Dungeon.level.mapped[b.collisionPos]){
+									setTarget(b.path.get(i));
+									break;
+								}
+							}
+						}
+ 						selectCell(listener);
+					} else {
+						hideTarget();
+					}
+				}
+
+				@Override
+				public boolean stackable() {
+					return true;
+				}
+
+				@Override
+				public String prompt() {
+					return null;
+				}
+			};
+			if (scene != null)
+				scene.prompt(listener.prompt());
+			return;
+		}
 		cellSelector.listener = listener;
 		if (scene != null)
-			scene.prompt( listener.prompt() );
+			scene.prompt(listener.prompt());
 	}
 	
 	private static boolean cancelCellSelector() {

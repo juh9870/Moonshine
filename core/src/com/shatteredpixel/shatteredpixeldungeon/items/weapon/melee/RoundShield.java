@@ -21,9 +21,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class RoundShield extends MeleeWeapon {
+public class RoundShield extends MeleeWeapon implements Shield {
 
 	{
 		image = ItemSpriteSheet.ROUND_SHIELD;

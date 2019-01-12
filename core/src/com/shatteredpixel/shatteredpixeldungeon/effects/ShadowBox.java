@@ -17,10 +17,9 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
-import com.watabou.gltextures.SmartTexture;
-import com.watabou.glwrap.Texture;
-import com.watabou.noosa.NinePatch;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.watabou.gltextures.SmartTexture;
+import com.watabou.noosa.NinePatch;
 
 public class ShadowBox extends NinePatch {
 

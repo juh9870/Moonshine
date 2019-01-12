@@ -22,6 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -107,7 +108,7 @@ public class LloydsBeacon extends Artifact {
 
 		super.execute( hero, action );
 
-		if (action == AC_SET || action == AC_RETURN) {
+		if (action.equals(AC_SET) || action.equals(AC_RETURN)) {
 			
 			if (Dungeon.bossLevel()) {
 				hero.spend( LloydsBeacon.TIME_TO_USE );
@@ -124,7 +125,7 @@ public class LloydsBeacon extends Artifact {
 			}
 		}
 
-		if (action == AC_ZAP ){
+		if (action.equals(AC_ZAP)){
 
 			curUser = hero;
 			int chargesToUse = Dungeon.depth > 20 ? 2 : 1;
@@ -138,10 +139,12 @@ public class LloydsBeacon extends Artifact {
 				QuickSlotButton.cancel();
 
 			} else {
+				GameScene.aimHelper=true;
+				curBallistica=Ballistica.MAGIC_BOLT;
 				GameScene.selectCell(zapper);
 			}
 
-		} else if (action == AC_SET) {
+		} else if (action.equals(AC_SET)) {
 			
 			returnDepth = Dungeon.depth;
 			returnPos = hero.pos;
@@ -154,7 +157,7 @@ public class LloydsBeacon extends Artifact {
 			
 			GLog.i( Messages.get(this, "return") );
 			
-		} else if (action == AC_RETURN) {
+		} else if (action.equals(AC_RETURN)) {
 			
 			if (returnDepth == Dungeon.depth) {
 				ScrollOfTeleportation.appear( hero, returnPos );

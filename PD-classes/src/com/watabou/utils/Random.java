@@ -85,6 +85,11 @@ public class Random {
 		return result % max;
 	}
 
+	//returns either true or false
+	public static boolean Boolean(){
+		return rand.nextBoolean();
+	}
+
 	//returns an index from chances, the probability of each index is the weight values in changes
 	public static int chances( float[] chances ) {
 		

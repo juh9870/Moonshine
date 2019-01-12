@@ -86,6 +86,13 @@ public class QuickSlotButton extends Button<GameAction> implements WndBag.Listen
 					return;
 				}
 
+				Item item = select(slotNum);
+				if (item!=null&&item.isPlaceholder()) {
+					onLongClick();
+					return;
+				}
+
+
 				if (targeting) {
 					int cell = autoAim(lastTarget, select(slotNum));
 
@@ -96,7 +103,6 @@ public class QuickSlotButton extends Button<GameAction> implements WndBag.Listen
 						GameScene.handleCell( lastTarget.pos );
 					}
 				} else {
-					Item item = select(slotNum);
 					if (item.usesTargeting)
 						useTargeting();
 					item.execute( Dungeon.hero );
@@ -200,7 +206,6 @@ public class QuickSlotButton extends Button<GameAction> implements WndBag.Listen
 			targeting = false;
 
 		}
-
 	}
 
 	public static int autoAim(Char target){

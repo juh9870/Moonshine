@@ -98,6 +98,12 @@ public abstract class EquipableItem extends Item {
 
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 
+		if (isPlaceholder()){
+//			Dungeon.quickslot.clearItem(this);
+//			updateQuickslot();
+			return true;
+		}
+
 		if (cursed) {
 			GLog.w(Messages.get(EquipableItem.class, "unequip_cursed"));
 			return false;
@@ -109,7 +115,7 @@ public abstract class EquipableItem extends Item {
 			hero.spend( time2equip( hero ) );
 		}
 
-		if (!collect || !collect( hero.belongings.backpack )) {
+		if (!collect || !collect( hero.belongings.backpack, false )) {
 			onDetach();
 			Dungeon.quickslot.clearItem(this);
 			updateQuickslot();

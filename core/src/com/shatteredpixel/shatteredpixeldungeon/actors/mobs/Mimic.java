@@ -150,20 +150,17 @@ public class Mimic extends Mob {
 		//generate an extra reward for killing the mimic
 		Item reward = null;
 		do {
-			switch (Random.Int(5)) {
+			switch (Random.Int(4)) {
 				case 0:
 					reward = new Gold().random();
 					break;
 				case 1:
-					reward = Generator.randomMissile();
-					break;
-				case 2:
 					reward = Generator.randomArmor();
 					break;
-				case 3:
+				case 2:
 					reward = Generator.randomWeapon();
 					break;
-				case 4:
+				case 3:
 					reward = Generator.random(Generator.Category.RING);
 					break;
 			}

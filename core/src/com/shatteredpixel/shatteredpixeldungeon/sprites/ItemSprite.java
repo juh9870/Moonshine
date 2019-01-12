@@ -19,9 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package com.shatteredpixel.shatteredpixeldungeon.sprites;
+
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;

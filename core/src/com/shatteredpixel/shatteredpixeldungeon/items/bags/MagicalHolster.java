@@ -48,8 +48,9 @@ public class MagicalHolster extends Bag {
 				for (Item item : items) {
 					if (item instanceof Wand) {
 						((Wand) item).charge(owner, HOLSTER_SCALE_FACTOR);
-					} else if (item instanceof MissileWeapon){
-						((MissileWeapon) item).holster = true;
+						//todo: buffs for new missiles?
+//					} else if (item instanceof MissileWeapon){
+//						((MissileWeapon) item).holster = true;
 					}
 				}
 			}
@@ -65,8 +66,8 @@ public class MagicalHolster extends Bag {
 		for (Item item : items) {
 			if (item instanceof Wand) {
 				((Wand)item).stopCharging();
-			} else if (item instanceof MissileWeapon){
-				((MissileWeapon) item).holster = false;
+//			} else if (item instanceof MissileWeapon){
+//				((MissileWeapon) item).holster = false;
 			}
 		}
 	}

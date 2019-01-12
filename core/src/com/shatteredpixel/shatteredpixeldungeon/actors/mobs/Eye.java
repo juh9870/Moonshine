@@ -30,7 +30,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;

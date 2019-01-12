@@ -25,11 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
+import com.shatteredpixel.shatteredpixeldungeon.items.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
@@ -74,7 +70,7 @@ public class CursingTrap extends Trap {
 		//items the trap can curse if nothing else is available.
 		ArrayList<Item> canCurse = new ArrayList<>();
 
-		KindOfWeapon weapon = hero.belongings.weapon;
+		KindOfWeapon weapon = Random.Float()<0.7?hero.belongings.weapon.currentWeapon():hero.belongings.weapon.offhandWeapon();
 		if (weapon instanceof Weapon && !weapon.cursed && !(weapon instanceof Boomerang)){
 			if (((Weapon) weapon).enchantment == null)
 				priorityCurse.add(weapon);

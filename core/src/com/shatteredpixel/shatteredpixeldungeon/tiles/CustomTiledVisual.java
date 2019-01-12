@@ -25,13 +25,15 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.Tilemap;
 import com.watabou.utils.Bundlable;
-import com.watabou.utils.Bundle;
+import com.watabou.utils.Storeable;
 
 public abstract class CustomTiledVisual extends Tilemap implements Bundlable {
 
 	protected static final int SIZE = DungeonTilemap.SIZE;
 
+	@Storeable
 	public int tileX, tileY;   //x and y coords for texture within a level
+	@Storeable
 	public int tileW = 1, tileH = 1; //width and height in tiles
 
 	public CustomTiledVisual(Object tx) {
@@ -111,22 +113,4 @@ public abstract class CustomTiledVisual extends Tilemap implements Bundlable {
 
 	private static final String TILE_W  = "tileW";
 	private static final String TILE_H  = "tileH";
-
-	@Override
-	public void restoreFromBundle(Bundle bundle) {
-		tileX = bundle.getInt(TILE_X);
-		tileY = bundle.getInt(TILE_Y);
-
-		tileW = bundle.getInt(TILE_W);
-		tileH = bundle.getInt(TILE_H);
-	}
-
-	@Override
-	public void storeInBundle(Bundle bundle) {
-		bundle.put(TILE_X, tileX);
-		bundle.put(TILE_Y, tileY);
-
-		bundle.put(TILE_W, tileW);
-		bundle.put(TILE_H, tileH);
-	}
 }

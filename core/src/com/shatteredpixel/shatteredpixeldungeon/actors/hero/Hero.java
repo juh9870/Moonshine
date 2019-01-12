@@ -21,67 +21,26 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Bones;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
-import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
-import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.CrystalKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.IronKey;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.Key;
-import com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.keys.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
@@ -89,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -281,15 +241,17 @@ public class Hero extends Char {
 	//this variable is only needed because of the boomerang, remove if/when it is no longer equippable
 	boolean rangedAttack = false;
 	
-	public boolean shoot( Char enemy, MissileWeapon wep ) {
+	public boolean shoot( Char enemy, Weapon wep ) {
 
 		//temporarily set the hero's weapon to the missile weapon being used
-		KindOfWeapon equipped = belongings.weapon;
-		belongings.weapon = wep;
+		KindOfWeapon equipped = belongings.weapon.currentWeapon();
+		int slot = belongings.weapon.getSlot(belongings.weapon.currentWeapon());
+		slot=slot!=-1?slot:0;
+		belongings.weapon.set(wep,slot);
 		rangedAttack = true;
 		boolean result = attack( enemy );
 		Invisibility.dispel();
-		belongings.weapon = equipped;
+		belongings.weapon.set(equipped,slot);
 		rangedAttack = false;
 
 		return result;
@@ -297,7 +259,8 @@ public class Hero extends Char {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		KindOfWeapon wep = belongings.weapon;
+		//TODO: maybe fix?
+		KindOfWeapon wep = belongings.weapon.currentWeapon();
 		
 		float accuracy = 1;
 		if (wep instanceof MissileWeapon && rangedAttack
@@ -342,12 +305,19 @@ public class Hero extends Char {
 			}
 			if (armDr > 0) dr += armDr;
 		}
-		if (belongings.weapon != null)  {
-			int wepDr = Random.NormalIntRange( 0 , belongings.weapon.defenseFactor( this ) );
-			if (STR() < ((Weapon)belongings.weapon).STRReq()){
-				wepDr -= 2*(((Weapon)belongings.weapon).STRReq() - STR());
+		if (belongings.weapon.currentWeapon() instanceof Shield)  {
+			int wepDr = Random.NormalIntRange( 0 ,((Shield) belongings.weapon.currentWeapon()).defenseFactor( this ) );
+			if (STR() < ((Weapon)belongings.weapon.currentWeapon()).STRReq()){
+				wepDr -= 2*(((Weapon)belongings.weapon.currentWeapon()).STRReq() - STR());
 			}
 			if (wepDr > 0) dr += wepDr;
+		}
+		if (belongings.weapon.offhandWeapon() instanceof Shield)  {
+			int wepDr = Random.NormalIntRange( 0 , ((Shield)belongings.weapon.offhandWeapon()).defenseFactor( this ) );
+			if (STR() < ((Weapon)belongings.weapon.offhandWeapon()).STRReq()){
+				wepDr -= 2*(((Weapon)belongings.weapon.offhandWeapon()).STRReq() - STR());
+			}
+			if (wepDr > 0) dr += wepDr*((Shield)belongings.weapon.offhandWeapon()).offhandModifier(this);
 		}
 		if (bark != null)               dr += Random.NormalIntRange( 0 , bark.level() );
 
@@ -356,7 +326,7 @@ public class Hero extends Char {
 	
 	@Override
 	public int damageRoll() {
-		KindOfWeapon wep = belongings.weapon;
+		KindOfWeapon wep = belongings.weapon.currentWeapon();
 		int dmg;
 
 		if (wep != null) {
@@ -394,9 +364,10 @@ public class Hero extends Char {
 	}
 
 	public boolean canSurpriseAttack(){
-		if (belongings.weapon == null || !(belongings.weapon instanceof Weapon))    return true;
-		if (STR() < ((Weapon)belongings.weapon).STRReq())                           return false;
-		if (belongings.weapon instanceof Flail)                                     return false;
+		if (belongings.weapon.currentWeapon() == null
+				|| !(belongings.weapon.currentWeapon() instanceof Weapon))	return true;
+		if (STR() < ((Weapon)belongings.weapon.currentWeapon()).STRReq())    return false;
+		if (belongings.weapon.currentWeapon() instanceof Flail)              return false;
 
 		return true;
 	}
@@ -409,7 +380,7 @@ public class Hero extends Char {
 		if (Dungeon.level.adjacent(pos, enemy.pos))
 			return true;
 
-		KindOfWeapon wep = Dungeon.hero.belongings.weapon;
+		KindOfWeapon wep = Dungeon.hero.belongings.weapon.currentWeapon();
 
 		if (wep != null && Dungeon.level.distance( pos, enemy.pos ) <= wep.reachFactor(this)){
 
@@ -427,9 +398,9 @@ public class Hero extends Char {
 	}
 	
 	public float attackDelay() {
-		if (belongings.weapon != null) {
+		if (belongings.weapon.currentWeapon() != null) {
 			
-			return belongings.weapon.speedFactor( this );
+			return belongings.weapon.currentWeapon().speedFactor( this );
 						
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
@@ -906,7 +877,7 @@ public class Hero extends Char {
 	
 	@Override
 	public int attackProc( Char enemy, int damage ) {
-		KindOfWeapon wep = belongings.weapon;
+		KindOfWeapon wep = belongings.weapon.currentWeapon();
 
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 			

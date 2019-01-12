@@ -42,8 +42,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
-import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
+import com.watabou.utils.Storeable;
 
 import java.util.ArrayList;
 
@@ -52,6 +52,7 @@ public abstract class Plant implements Bundlable {
 	public String plantName = Messages.get(this, "name");
 	
 	public int image;
+	@Storeable
 	public int pos;
 
 	public void trigger(){
@@ -102,19 +103,7 @@ public abstract class Plant implements Bundlable {
 			}
 		}
 	}
-	
-	private static final String POS	= "pos";
 
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		pos = bundle.getInt( POS );
-	}
-
-	@Override
-	public void storeInBundle( Bundle bundle ) {
-		bundle.put( POS, pos );
-	}
-	
 	public String desc() {
 		return Messages.get(this, "desc");
 	}

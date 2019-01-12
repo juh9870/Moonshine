@@ -225,6 +225,8 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 	
 	@Override
 	public void doAction() {
+
+		GameScene.aimHelper=false;
 		GameScene.selectCell(attack);
 	}
 	

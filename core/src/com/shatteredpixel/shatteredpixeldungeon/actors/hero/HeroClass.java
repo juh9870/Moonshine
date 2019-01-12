@@ -20,31 +20,28 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Tripple.ThermalWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Knuckles;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 
@@ -68,6 +65,7 @@ public enum HeroClass {
 		hero.heroClass = this;
 
 		initCommon( hero );
+		if (SPDSettings.debug)initDev( hero );
 
 		switch (this) {
 			case WARRIOR:
@@ -102,6 +100,16 @@ public enum HeroClass {
 
 	}
 
+	private static void initDev( Hero hero ){
+		new WornShortsword().identify().collect();
+		new Whip().identify().upgrade(40).collect();
+		Whip w = (Whip)new Whip().identify().upgrade(40);
+		w.cursed=w.cursedKnown=true;
+		w.collect();
+		new ThrowingKnife().upgrade(3).identify().collect();
+		new ThermalWand().identify().collect();
+	}
+
 	public Badges.Badge masteryBadge() {
 		switch (this) {
 			case WARRIOR:
@@ -117,10 +125,10 @@ public enum HeroClass {
 	}
 
 	private static void initWarrior( Hero hero ) {
-		(hero.belongings.weapon = new WornShortsword()).identify();
-		ThrowingStone stones = new ThrowingStone();
-		stones.identify().quantity(3).collect();
-		Dungeon.quickslot.setSlot(0, stones);
+		(hero.belongings.weapon.right = new WornShortsword()).identify();
+//		ThrowingStone stones = new ThrowingStone();
+//		stones.identify().quantity(3).collect();
+//		Dungeon.quickslot.setSlot(0, stones);
 
 		if (hero.belongings.armor != null){
 			hero.belongings.armor.affixSeal(new BrokenSeal());
@@ -136,8 +144,8 @@ public enum HeroClass {
 		
 		staff = new MagesStaff(new WandOfMagicMissile());
 
-		(hero.belongings.weapon = staff).identify();
-		hero.belongings.weapon.activate(hero);
+		(hero.belongings.weapon.right = staff).identify();
+		hero.belongings.weapon.right.activate(hero);
 
 		Dungeon.quickslot.setSlot(0, staff);
 
@@ -147,17 +155,17 @@ public enum HeroClass {
 	}
 
 	private static void initRogue( Hero hero ) {
-		(hero.belongings.weapon = new Dagger()).identify();
+		(hero.belongings.weapon.right = new Dagger()).identify();
 
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.misc1 = cloak).identify();
 		hero.belongings.misc1.activate( hero );
 
-		ThrowingKnife knives = new ThrowingKnife();
-		knives.quantity(3).collect();
+//		ThrowingKnife knives = new ThrowingKnife();
+//		knives.quantity(3).collect();
 
 		Dungeon.quickslot.setSlot(0, cloak);
-		Dungeon.quickslot.setSlot(1, knives);
+//		Dungeon.quickslot.setSlot(1, knives);
 
 		new VelvetPouch().collect();
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
@@ -166,7 +174,7 @@ public enum HeroClass {
 
 	private static void initHuntress( Hero hero ) {
 
-		(hero.belongings.weapon = new Knuckles()).identify();
+		(hero.belongings.weapon.right = new Knuckles()).identify();
 		Boomerang boomerang = new Boomerang();
 		boomerang.identify().collect();
 

@@ -68,11 +68,11 @@ public class QuickSlot {
 	}
 
 	public Boolean isPlaceholder(int slot){
-		return getItem(slot) != null && getItem(slot).quantity() == 0;
+		return getItem(slot) != null && (getItem(slot).quantity() == 0 || getItem(slot).isPlaceholder());
 	}
 
 	public Boolean isNonePlaceholder(int slot){
-		return getItem(slot) != null && getItem(slot).quantity() > 0;
+		return getItem(slot) != null && getItem(slot).quantity() > 0 && !getItem(slot).isPlaceholder();
 	}
 
 	public void clearItem(Item item){

@@ -36,11 +36,20 @@ public class Boomerang extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.BOOMERANG;
 
-		stackable = false;
-
 		unique = true;
 		bones = false;
-		
+
+		ammo=maxAmmo=1;
+
+	}
+
+	public void recalculateAmmo(){
+		//Boomerang always have 1 ammo
+	}
+
+	@Override
+	public float stickChance() {
+		return 0;
 	}
 
 	@Override
@@ -63,34 +72,15 @@ public class Boomerang extends MissileWeapon {
 	}
 
 	@Override
+	public String status() {
+		return null;
+	}
+
+	@Override
 	public int STRReq(int lvl) {
 		lvl = Math.max(0, lvl);
 		//strength req decreases at +1,+3,+6,+10,etc.
 		return 9 - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
-	}
-
-	@Override
-	public boolean isUpgradable() {
-		return true;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return levelKnown && cursedKnown;
-	}
-	
-	@Override
-	public Item upgrade( boolean enchant ) {
-		super.upgrade( enchant );
-		
-		updateQuickslot();
-		
-		return this;
-	}
-	
-	@Override
-	protected float durabilityPerUse() {
-		return 0;
 	}
 
 	@Override
@@ -107,25 +97,10 @@ public class Boomerang extends MissileWeapon {
 
 		((MissileSprite)curUser.sprite.parent.recycle( MissileSprite.class )).
 				reset( from, owner.sprite, curItem, null );
-
-		if (throwEquiped) {
-			owner.belongings.weapon = this;
-			owner.spend( -TIME_TO_EQUIP );
-			Dungeon.quickslot.replacePlaceholder(this);
-			updateQuickslot();
-		} else
-		if (!collect( curUser.belongings.backpack )) {
+		if (!collect()) {
 			Dungeon.level.drop( this, owner.pos ).sprite.drop();
 		}
-	}
-
-	private boolean throwEquiped;
-
-	@Override
-	public void cast( Hero user, int dst ) {
-		throwEquiped = isEquipped( user ) && !cursed;
-		if (throwEquiped) Dungeon.quickslot.convertToPlaceholder(this);
-		super.cast( user, dst );
+		curUser.spendAndNext(castDelay(curUser,from));
 	}
 	
 	@Override

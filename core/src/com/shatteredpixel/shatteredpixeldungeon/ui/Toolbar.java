@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTerrainTilemap;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndJournal;
 import com.watabou.noosa.Camera;
@@ -46,6 +47,7 @@ public class Toolbar extends Component {
 	private Tool btnWait;
 	private Tool btnSearch;
 	private Tool btnInventory;
+	private WeaponTool btnWeapon;
 	private QuickslotTool[] btnQuick;
 
 	private PickedUpItem pickedUp;
@@ -71,8 +73,8 @@ public class Toolbar extends Component {
 
 	@Override
 	protected void createChildren() {
-		
-		add( btnWait = new Tool(24, 0, 20, 26, GameAction.REST ) {
+
+		add(btnWait = new Tool(20, 0, 19, 26, GameAction.REST) {
 			@Override
 			protected void onClick() {
 				examining = false;
@@ -84,14 +86,13 @@ public class Toolbar extends Component {
 				Dungeon.hero.rest(true);
 				return true;
 			}
-
-			;
 		});
-		
-		add( btnSearch = new Tool(44, 0, 20, 26, GameAction.SEARCH ) {
+
+		add(btnSearch = new Tool(39, 0, 20, 26, GameAction.SEARCH) {
 			@Override
 			protected void onClick() {
 				if (!examining) {
+					GameScene.aimHelper = false;
 					GameScene.selectCell(informer);
 					examining = true;
 				} else {
@@ -107,24 +108,40 @@ public class Toolbar extends Component {
 			}
 		});
 
+		add(btnWeapon = new WeaponTool(59, 0, 20, 26, GameAction.WEAPON) {
+			@Override
+			protected void onClick() {
+				if (Dungeon.hero.belongings.weapon.switchActive())
+					this.setWeapon(Dungeon.hero.belongings.weapon.currentWeapon());
+				else
+					GLog.i(Messages.get(Toolbar.class, "cant_switch_weapon"));
+			}
+
+			@Override
+			protected boolean onLongClick() {
+				return false;
+			}
+		});
+		btnWeapon.setWeapon(Dungeon.hero.belongings.weapon.currentWeapon());
+
 		btnQuick = new QuickslotTool[4];
 
-		add( btnQuick[3] = new QuickslotTool( 64, 0, 22, 24, 3, GameAction.QUICKSLOT_4) );
+		add(btnQuick[3] = new QuickslotTool(79, 0, 22, 25, 3, GameAction.QUICKSLOT_4));
 
-		add( btnQuick[2] = new QuickslotTool( 64, 0, 22, 24, 2, GameAction.QUICKSLOT_3) );
+		add(btnQuick[2] = new QuickslotTool(79, 0, 22, 25, 2, GameAction.QUICKSLOT_3));
 
-		add(btnQuick[1] = new QuickslotTool(64, 0, 22, 24, 1, GameAction.QUICKSLOT_2));
+		add(btnQuick[1] = new QuickslotTool(79, 0, 22, 25, 1, GameAction.QUICKSLOT_2));
 
-		add(btnQuick[0] = new QuickslotTool(64, 0, 22, 24, 0, GameAction.QUICKSLOT_1));
-		
-		add(btnInventory = new Tool(0, 0, 24, 26, GameAction.BACKPACK ) {
+		add(btnQuick[0] = new QuickslotTool(79, 0, 22, 25, 0, GameAction.QUICKSLOT_1));
+
+		add(btnInventory = new Tool(0, 0, 20, 26, GameAction.BACKPACK) {
 			private GoldIndicator gold;
 
 			@Override
 			protected void onClick() {
 				GameScene.show(new WndBag(Dungeon.hero.belongings.backpack, null, WndBag.Mode.ALL, null));
 			}
-			
+
 			@Override
 			protected boolean onLongClick() {
 				WndJournal.last_index = 2; //catalog page
@@ -159,52 +176,53 @@ public class Toolbar extends Component {
 		int[] visible = new int[4];
 		int slots = SPDSettings.quickSlots();
 
-		for(int i = 0; i <= 3; i++)
-			visible[i] = (int)((slots > i) ? y+2 : y+25);
+		for (int i = 0; i <= 3; i++)
+			visible[i] = (int) ((slots > i) ? y + 1 : y + 25);
 
-		for(int i = 0; i <= 3; i++) {
+		for (int i = 0; i <= 3; i++) {
 			btnQuick[i].visible = btnQuick[i].active = slots > i;
 			//decides on quickslot layout, depending on available screen size.
-			if (slots == 4 && width < 152){
-				if (width < 138){
+			if (slots == 4 && width < 152) {
+				if (width < 138) {
 					if ((SPDSettings.flipToolbar() && i == 3) ||
 							(!SPDSettings.flipToolbar() && i == 0)) {
 						btnQuick[i].border(0, 0);
-						btnQuick[i].frame(88, 0, 17, 24);
+						btnQuick[i].frame(103, 0, 17, 25);
 					} else {
 						btnQuick[i].border(0, 1);
-						btnQuick[i].frame(88, 0, 18, 24);
+						btnQuick[i].frame(103, 0, 18, 25);
 					}
 				} else {
 					if (i == 0 && !SPDSettings.flipToolbar() ||
-							i == 3 && SPDSettings.flipToolbar()){
+							i == 3 && SPDSettings.flipToolbar()) {
 						btnQuick[i].border(0, 2);
-						btnQuick[i].frame(106, 0, 19, 24);
+						btnQuick[i].frame(121, 0, 19, 25);
 					} else if (i == 0 && SPDSettings.flipToolbar() ||
-							i == 3 && !SPDSettings.flipToolbar()){
+							i == 3 && !SPDSettings.flipToolbar()) {
 						btnQuick[i].border(2, 1);
-						btnQuick[i].frame(86, 0, 20, 24);
+						btnQuick[i].frame(101, 0, 20, 25);
 					} else {
 						btnQuick[i].border(0, 1);
-						btnQuick[i].frame(88, 0, 18, 24);
+						btnQuick[i].frame(101, 0, 18, 25);
 					}
 				}
 			} else {
 				btnQuick[i].border(2, 2);
-				btnQuick[i].frame(64, 0, 22, 24);
+				btnQuick[i].frame(79, 0, 22, 25);
 			}
 
 		}
 
 		float right = width;
-		switch(Mode.valueOf(SPDSettings.toolbarMode())){
+		switch (Mode.valueOf(SPDSettings.toolbarMode())) {
 			case SPLIT:
 				btnWait.setPos(x, y);
 				btnSearch.setPos(btnWait.right(), y);
 
 				btnInventory.setPos(right - btnInventory.width(), y);
+				btnWeapon.setPos(btnInventory.left() - btnWeapon.width(), y);
 
-				btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), visible[0]);
+				btnQuick[0].setPos(btnWeapon.left() - btnQuick[0].width(), visible[0]);
 				btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), visible[1]);
 				btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), visible[2]);
 				btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), visible[3]);
@@ -212,18 +230,19 @@ public class Toolbar extends Component {
 
 			//center = group but.. well.. centered, so all we need to do is pre-emptively set the right side further in.
 			case CENTER:
-				float toolbarWidth = btnWait.width() + btnSearch.width() + btnInventory.width();
-				for(Button slot : btnQuick){
+				float toolbarWidth = btnWait.width() + btnSearch.width() + btnInventory.width() + btnWeapon.width();
+				for (Button slot : btnQuick) {
 					if (slot.visible) toolbarWidth += slot.width();
 				}
-				right = (width + toolbarWidth)/2;
+				right = (width + toolbarWidth) / 2;
 
 			case GROUP:
 				btnWait.setPos(right - btnWait.width(), y);
 				btnSearch.setPos(btnWait.left() - btnSearch.width(), y);
 				btnInventory.setPos(btnSearch.left() - btnInventory.width(), y);
+				btnWeapon.setPos(btnInventory.left() - btnWeapon.width(), y);
 
-				btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), visible[0]);
+				btnQuick[0].setPos(btnWeapon.left() - btnQuick[0].width(), visible[0]);
 				btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), visible[1]);
 				btnQuick[2].setPos(btnQuick[1].left() - btnQuick[2].width(), visible[2]);
 				btnQuick[3].setPos(btnQuick[2].left() - btnQuick[3].width(), visible[3]);
@@ -233,19 +252,20 @@ public class Toolbar extends Component {
 
 		if (SPDSettings.flipToolbar()) {
 
-			btnWait.setPos( (right - btnWait.right()), y);
-			btnSearch.setPos( (right - btnSearch.right()), y);
-			btnInventory.setPos( (right - btnInventory.right()), y);
+			btnWait.setPos((right - btnWait.right()), y);
+			btnSearch.setPos((right - btnSearch.right()), y);
+			btnInventory.setPos((right - btnInventory.right()), y);
+			btnWeapon.setPos((right - btnInventory.right()), y);
 
-			for(int i = 0; i <= 3; i++) {
-				btnQuick[i].setPos( right - btnQuick[i].right(), visible[i]);
+			for (int i = 0; i <= 3; i++) {
+				btnQuick[i].setPos(right - btnQuick[i].right(), visible[i]);
 			}
 
 		}
 
 	}
 
-	public static void updateLayout(){
+	public static void updateLayout() {
 		if (instance != null) instance.layout();
 	}
 
@@ -258,18 +278,19 @@ public class Toolbar extends Component {
 
 			for (Gizmo tool : members) {
 				if (tool instanceof Tool) {
-					((Tool)tool).enable( lastEnabled );
+					((Tool) tool).enable(lastEnabled);
 				}
 			}
 		}
+
 
 		if (!Dungeon.hero.isAlive()) {
 			btnInventory.enable(true);
 		}
 	}
 
-	public void pickup( Item item, int cell ) {
-		pickedUp.reset( item,
+	public void pickup(Item item, int cell) {
+		pickedUp.reset(item,
 				cell,
 				btnInventory.centerX(),
 				btnInventory.centerY());
@@ -277,23 +298,24 @@ public class Toolbar extends Component {
 
 	private static CellSelector.Listener informer = new CellSelector.Listener() {
 		@Override
-		public void onSelect( Integer cell ) {
+		public void onSelect(Integer cell) {
 			instance.examining = false;
-			GameScene.examineCell( cell );
+			GameScene.examineCell(cell);
 		}
+
 		@Override
 		public String prompt() {
 			return Messages.get(Toolbar.class, "examine_prompt");
 		}
 	};
-	
+
 	private static class Tool extends Button<GameAction> {
-		
-		private static final int BGCOLOR = 0x7B8073;
+
+		protected static final int BGCOLOR = 0x7B8073;
 
 		private Image base;
-		
-		public Tool(int x, int y, int width, int height, GameAction hotKey ) {
+
+		public Tool(int x, int y, int width, int height, GameAction hotKey) {
 			super();
 
 			hotArea.blockWhenInactive = true;
@@ -302,19 +324,19 @@ public class Toolbar extends Component {
 			this.hotKey = hotKey;
 		}
 
-		public void frame( int x, int y, int width, int height) {
-			base.frame( x, y, width, height );
+		public void frame(int x, int y, int width, int height) {
+			base.frame(x, y, width, height);
 
 			this.width = width;
 			this.height = height;
 		}
-		
+
 		@Override
 		protected void createChildren() {
 			super.createChildren();
 
-			base = new Image( Assets.TOOLBAR );
-			add( base );
+			base = new Image(Assets.TOOLBAR);
+			add(base);
 		}
 
 		@Override
@@ -327,7 +349,7 @@ public class Toolbar extends Component {
 
 		@Override
 		protected void onTouchDown() {
-			base.brightness( 1.4f );
+			base.brightness(1.4f);
 		}
 
 		@Override
@@ -335,19 +357,66 @@ public class Toolbar extends Component {
 			if (active) {
 				base.resetColor();
 			} else {
-				base.tint( BGCOLOR, 0.7f );
+				base.tint(BGCOLOR, 0.7f);
 			}
 		}
 
-		public void enable( boolean value ) {
+		public void enable(boolean value) {
 			if (value != active) {
 				if (value) {
 					base.resetColor();
 				} else {
-					base.tint( BGCOLOR, 0.7f );
+					base.tint(BGCOLOR, 0.7f);
 				}
 				active = value;
 			}
+		}
+	}
+
+	private static class WeaponTool extends Tool {
+		private Item curItem;
+		private ItemSprite curSprite = new ItemSprite();
+
+		public WeaponTool(int x, int y, int width, int height, GameAction hotKey) {
+			super(x, y, width, height, hotKey);
+		}
+
+		@Override
+		public void enable(boolean value) {
+			if (value != active) {
+				setWeapon(Dungeon.hero.belongings.weapon.currentWeapon());
+				if (value) {
+					curSprite.resetColor();
+				} else {
+					curSprite.tint(BGCOLOR, 0.7f);
+				}
+			}
+			super.enable(value);
+		}
+
+		@Override
+		public void update() {
+			super.update();
+			Item wep = Dungeon.hero.belongings.weapon.currentWeapon();
+			if (wep != curItem)
+				setWeapon(wep);
+		}
+
+		public void setWeapon(Item weapon) {
+			if (curSprite != null)
+				remove(curSprite);
+			add(curSprite = new ItemSprite(weapon));
+			layout();
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+
+			float h = height - 2;
+
+			curSprite.y = y + (h - curSprite.height()) / 2;
+			curSprite.x = x + (width - curSprite.width()) / 2;
 		}
 	}
 
@@ -357,14 +426,14 @@ public class Toolbar extends Component {
 		private int borderLeft = 2;
 		private int borderRight = 2;
 
-		public QuickslotTool( int x, int y, int width, int height, int slotNum, GameAction hotKey) {
+		public QuickslotTool(int x, int y, int width, int height, int slotNum, GameAction hotKey) {
 			super(x, y, width, height, null);
 
-			slot = new QuickSlotButton( slotNum, hotKey );
+			slot = new QuickSlotButton(slotNum, hotKey);
 			add(slot);
 		}
 
-		public void border( int left, int right ){
+		public void border(int left, int right) {
 			borderLeft = left;
 			borderRight = right;
 			layout();
@@ -373,13 +442,13 @@ public class Toolbar extends Component {
 		@Override
 		protected void layout() {
 			super.layout();
-			slot.setRect( x + borderLeft, y + 2, width - borderLeft-borderRight, height - 4 );
+			slot.setRect(x + borderLeft, y + 2, width - borderLeft - borderRight, height - 4);
 		}
 
 		@Override
-		public void enable( boolean value ) {
-			super.enable( value );
-			slot.enable( value );
+		public void enable(boolean value) {
+			super.enable(value);
+			slot.enable(value);
 		}
 	}
 
@@ -402,8 +471,8 @@ public class Toolbar extends Component {
 							false;
 		}
 
-		public void reset( Item item, int cell, float endX, float endY ) {
-			view( item );
+		public void reset(Item item, int cell, float endX, float endY) {
+			view(item);
 
 			active =
 					visible =
@@ -415,13 +484,13 @@ public class Toolbar extends Component {
 
 			x = this.startX = start.x - ItemSprite.SIZE / 2;
 			y = this.startY = start.y - ItemSprite.SIZE / 2;
-			
+
 			this.endX = endX - ItemSprite.SIZE / 2;
 			this.endY = endY - ItemSprite.SIZE / 2;
 			left = DURATION;
 
-			scale.set( startScale = Camera.main.zoom / camera().zoom );
-			
+			scale.set(startScale = Camera.main.zoom / camera().zoom);
+
 		}
 
 		@Override
@@ -437,10 +506,10 @@ public class Toolbar extends Component {
 
 			} else {
 				float p = left / DURATION;
-				scale.set( startScale * (float)Math.sqrt( p ) );
+				scale.set(startScale * (float) Math.sqrt(p));
 
-				x = startX*p + endX*(1-p);
-				y = startY*p + endY*(1-p);
+				x = startX * p + endX * (1 - p);
+				y = startY * p + endY * (1 - p);
 			}
 		}
 	}

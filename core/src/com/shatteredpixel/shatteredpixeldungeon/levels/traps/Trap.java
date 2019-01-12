@@ -101,6 +101,7 @@ public abstract class Trap implements Bundlable {
 
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
+		Bundlable.super.restoreFromBundle(bundle);
 		pos = bundle.getInt( POS );
 		visible = bundle.getBoolean( VISIBLE );
 		if (bundle.contains(ACTIVE)){
@@ -110,6 +111,7 @@ public abstract class Trap implements Bundlable {
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
+		Bundlable.super.storeInBundle(bundle);
 		bundle.put( POS, pos );
 		bundle.put( VISIBLE, visible );
 		bundle.put( ACTIVE, active );

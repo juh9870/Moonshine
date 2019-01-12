@@ -37,6 +37,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
 public class WndSettings extends WndTabbed {
@@ -252,7 +253,8 @@ public class WndSettings extends WndTabbed {
 			chkFlipTags.checked(SPDSettings.flipTags());
 			add(chkFlipTags);
 
-			/*	if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
+			Component last = chkFlipTags;
+			if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
 				OptionSlider slots = new OptionSlider("Quickslots", "0", "4", 0, 4) {
 					@Override
 					protected void onChange() {
@@ -260,19 +262,32 @@ public class WndSettings extends WndTabbed {
 						Toolbar.updateLayout();
 					}
 				};
+				last=slots;
 				slots.setSelectedValue(SPDSettings.quickSlots());
-				slots.setRect(0, chkFlipTags.bottom() + GAP_LRG, WIDTH, SLIDER_HEIGHT);
+				slots.setRect(0, chkFlipTags.bottom() + GAP_TINY, WIDTH, SLIDER_HEIGHT);
 				add(slots);
-			} else*/ if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			} else if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
 				RedButton btnKeymap = new RedButton(TXT_BINDINGS) {
 					@Override
 					protected void onClick() {
 						Game.scene().add(new WndKeymap());
 					}
 				};
-				btnKeymap.setRect(0, chkFlipTags.bottom() + GAP_LRG, WIDTH, BTN_HEIGHT);
+				last=btnKeymap;
+				btnKeymap.setRect(0, chkFlipTags.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 				add(btnKeymap);
+
 			}
+			final CheckBox chkAimHelper = new CheckBox(Messages.get(this, "aimhelper")){
+				@Override
+				protected void onClick() {
+					super.onClick();
+					SPDSettings.aimhelper(checked());
+				}
+			};
+			chkAimHelper.setRect(0, last.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
+			chkAimHelper.checked(SPDSettings.aimhelper());
+			add(chkAimHelper);
 		}
 
 	}

@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon.Enchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.StatueSprite;
@@ -103,7 +104,7 @@ public class Statue extends Mob {
 
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, Dungeon.depth + weapon.defenseFactor(this));
+		return Random.NormalIntRange(0, Dungeon.depth + (weapon instanceof Shield ? ((Shield) weapon).defenseFactor(this):0));
 	}
 	
 	@Override

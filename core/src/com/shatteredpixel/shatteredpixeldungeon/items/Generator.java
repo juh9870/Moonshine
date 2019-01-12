@@ -23,132 +23,19 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.UnstableSpellbook;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLevitation;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMight;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfPurity;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfElements;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfPsionicBlast;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorruption;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dirk;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Knuckles;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingHammer;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
-import com.shatteredpixel.shatteredpixeldungeon.plants.BlandfruitBush;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Dreamfoil;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Starflower;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.*;
+import com.shatteredpixel.shatteredpixeldungeon.plants.*;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
@@ -327,36 +214,33 @@ public class Generator {
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};
 			MISSILE.probs = new float[]{};
-			
+
 			MIS_T1.classes = new Class<?>[]{
-					Dart.class,
 					ThrowingKnife.class
 			};
-			MIS_T1.probs = new float[]{ 1, 1 };
-			
+			MIS_T1.probs = new float[]{ 1 };
+
 			MIS_T2.classes = new Class<?>[]{
-					FishingSpear.class,
 					Shuriken.class
 			};
-			MIS_T2.probs = new float[]{ 4, 3 };
-			
+			MIS_T2.probs = new float[]{ 1 };
+
 			MIS_T3.classes = new Class<?>[]{
-					ThrowingSpear.class,
-					Bolas.class
+					Bolas.class,
+					ThrowingClub.class
 			};
-			MIS_T3.probs = new float[]{ 4, 3 };
-			
+			MIS_T3.probs = new float[]{ 3, 4 };
+
 			MIS_T4.classes = new Class<?>[]{
-					Javelin.class,
+					FishingSpear.class,
+					CastNet.class
+			};
+			MIS_T4.probs = new float[]{ 4, 2 };
+
+			MIS_T5.classes = new Class<?>[]{
 					Tomahawk.class
 			};
-			MIS_T4.probs = new float[]{ 4, 3 };
-			
-			MIS_T5.classes = new Class<?>[]{
-					Trident.class,
-					ThrowingHammer.class
-			};
-			MIS_T5.probs = new float[]{ 4, 3 };
+			MIS_T5.probs = new float[]{ 1 };
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,
@@ -535,9 +419,9 @@ public class Generator {
 	}
 	
 	public static MissileWeapon randomMissile(int floorSet) {
-		
+
 		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
-		
+
 		try {
 			Category c = misTiers[Random.chances(floorSetTierProbs[floorSet])];
 			MissileWeapon w = (MissileWeapon)c.classes[Random.chances(c.probs)].newInstance();

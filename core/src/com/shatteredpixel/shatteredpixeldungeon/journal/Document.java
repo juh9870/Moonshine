@@ -24,11 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public enum Document {
 

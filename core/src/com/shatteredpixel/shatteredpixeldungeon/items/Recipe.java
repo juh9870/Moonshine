@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
 
 import java.util.ArrayList;
 
@@ -116,7 +115,7 @@ public abstract class Recipe {
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
 		new Blandfruit.CookFruit(),
-		new TippedDart.TipDart()
+//		new TippedDart.TipDart()
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{

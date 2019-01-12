@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;

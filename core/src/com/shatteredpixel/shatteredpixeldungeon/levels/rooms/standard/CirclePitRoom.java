@@ -3,7 +3,6 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
 
 public class CirclePitRoom extends StandardRoom {
 

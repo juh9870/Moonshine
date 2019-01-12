@@ -26,11 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.ShadowBox;
 import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.input.NoosaInputProcessor;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.NinePatch;
-import com.watabou.noosa.TouchArea;
+import com.watabou.noosa.*;
 import com.watabou.utils.Signal;
 
 public class Window extends Group implements Signal.Listener<NoosaInputProcessor.Key<GameAction>> {

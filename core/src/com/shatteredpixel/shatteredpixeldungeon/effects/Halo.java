@@ -21,12 +21,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Image;
-
-import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 
 public class Halo extends Image {
 	

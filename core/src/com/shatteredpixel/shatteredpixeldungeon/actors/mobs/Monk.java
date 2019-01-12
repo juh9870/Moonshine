@@ -28,8 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Knuckles;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.types.Shield;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MonkSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -89,16 +89,16 @@ public class Monk extends Mob {
 		if (enemy == Dungeon.hero) {
 			
 			Hero hero = Dungeon.hero;
-			KindOfWeapon weapon = hero.belongings.weapon;
+			KindOfWeapon weapon = hero.belongings.weapon.currentWeapon();
 			
 			if (weapon != null
 					&& !(weapon instanceof Knuckles)
-					&& !(weapon instanceof Gauntlet)
+					&& !(weapon instanceof Shield)
 					&& !weapon.cursed) {
 				if (hitsToDisarm == 0) hitsToDisarm = Random.NormalIntRange(4, 8);
 
 				if (--hitsToDisarm == 0) {
-					hero.belongings.weapon = null;
+					hero.belongings.weapon.set(null,hero.belongings.weapon.getCurSlot());
 					Dungeon.quickslot.convertToPlaceholder(weapon);
 					weapon.updateQuickslot();
 					Dungeon.level.drop(weapon, hero.pos).sprite.drop();

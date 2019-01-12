@@ -21,11 +21,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.CorrosionParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.RainbowParticle;
-import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.*;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -57,6 +53,7 @@ public class MagicMissile extends Emitter {
 	public static final int BEACON          = 6;
 	public static final int SHADOW          = 7;
 	public static final int RAINBOW         = 8;
+	public static final int SMOKE         	= 9;
 
 	public static final int FIRE_CONE       = 100;
 	public static final int FOLIAGE_CONE    = 101;
@@ -140,6 +137,10 @@ public class MagicMissile extends Emitter {
 			case FOLIAGE_CONE:
 				size( 10 );
 				pour( LeafParticle.GENERAL, 0.03f );
+				break;
+			case SMOKE:
+				size( 10 );
+				pour( SmokeParticle.FACTORY, 0.03f );
 				break;
 		}
 	}

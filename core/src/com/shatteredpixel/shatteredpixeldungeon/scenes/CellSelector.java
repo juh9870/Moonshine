@@ -21,17 +21,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.watabou.noosa.Camera;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
 import com.shatteredpixel.shatteredpixeldungeon.input.PDInputProcessor;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.input.NoosaInputProcessor;
+import com.watabou.noosa.Camera;
+import com.watabou.noosa.Image;
 import com.watabou.noosa.TouchArea;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.Point;
@@ -204,7 +205,8 @@ public class CellSelector extends TouchArea<GameAction> {
 		if (enabled && listener != null && cell != -1) {
 			
 			listener.onSelect( cell );
-			GameScene.ready();
+			if (!listener.stackable())
+				GameScene.ready();
 
 		} else {
 			
@@ -331,5 +333,8 @@ public class CellSelector extends TouchArea<GameAction> {
 	public interface Listener {
 		void onSelect( Integer cell );
 		String prompt();
+		default boolean stackable(){
+			return false;
+		}
 	}
 }

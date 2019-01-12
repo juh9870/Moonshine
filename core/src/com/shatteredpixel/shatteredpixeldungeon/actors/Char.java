@@ -26,28 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EarthImbue;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Potential;
@@ -59,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -68,11 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundlable;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
+import com.watabou.utils.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -167,7 +141,7 @@ public abstract class Char extends Actor {
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
-				if (h.belongings.weapon instanceof MissileWeapon
+				if (h.belongings.weapon.currentWeapon() instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER){
 					dr = 0;
 				}
@@ -559,7 +533,7 @@ public abstract class Char extends Actor {
 				new HashSet<Class>( Arrays.asList(Burning.class, Blazing.class))),
 		ACIDIC ( new HashSet<Class>( Arrays.asList(ToxicGas.class, Corrosion.class)),
 				new HashSet<Class>( Arrays.asList(Ooze.class))),
-		ELECTRIC ( new HashSet<Class>( Arrays.asList(WandOfLightning.class, Shocking.class, Potential.class, Electricity.class, ShockingDart.class)),
+		ELECTRIC ( new HashSet<Class>( Arrays.asList(WandOfLightning.class, Shocking.class, Potential.class, Electricity.class)),
 				new HashSet<Class>()),
 		IMMOVABLE;
 		

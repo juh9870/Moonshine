@@ -21,17 +21,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -45,7 +43,8 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
+import com.watabou.utils.GameArrays;
+import com.watabou.utils.Storeable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,28 +61,40 @@ public class Item implements Bundlable {
 	
 	public static final String AC_DROP		= "DROP";
 	public static final String AC_THROW		= "THROW";
-	
+
+	@Storeable
 	public String defaultAction;
+	@Storeable
 	public boolean usesTargeting;
 	
 	protected String name = Messages.get(this, "name");
+	@Storeable
 	public int image = 0;
 	
 	public boolean stackable = false;
+	@Storeable
 	protected int quantity = 1;
-	
 	private int level = 0;
+	@Storeable
+	public int tier = 0;
 
 	public boolean levelKnown = false;
 	
 	public boolean cursed;
 	public boolean cursedKnown;
-	
+
+	public boolean isPlaceholder(){
+		return false;
+	}
+
 	// Unique items persist through revival
 	public boolean unique = false;
 
 	// whether an item can be included in heroes remains
 	public boolean bones = false;
+
+	@Storeable
+	public String uuid = java.util.UUID.randomUUID().toString();
 	
 	private static Comparator<Item> itemComparator = new Comparator<Item>() {
 		@Override
@@ -113,6 +124,7 @@ public class Item implements Bundlable {
 	}
 	
 	public void doDrop( Hero hero ) {
+		if (isPlaceholder())return;
 		hero.spendAndNext( TIME_TO_DROP );
 		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );
 	}
@@ -124,6 +136,8 @@ public class Item implements Bundlable {
 	}
 
 	public void doThrow( Hero hero ) {
+		GameScene.aimHelper=true;
+		curBallistica=Ballistica.PROJECTILE;
 		GameScene.selectCell( thrower );
 	}
 	
@@ -134,15 +148,18 @@ public class Item implements Bundlable {
 
 		Combo combo = hero.buff(Combo.class);
 		if (combo != null) combo.detach();
-		
-		if (action.equals( AC_DROP )) {
-			
-			doDrop( hero );
-			
-		} else if (action.equals( AC_THROW )) {
-			
-			doThrow( hero );
-			
+
+		switch (action) {
+			case AC_DROP:
+
+				doDrop(hero);
+
+				break;
+			case AC_THROW:
+
+				doThrow(hero);
+
+				break;
 		}
 	}
 	
@@ -167,21 +184,28 @@ public class Item implements Bundlable {
 	}
 
 	public boolean collect( Bag container ) {
-		
+		return collect(container,true);
+	}
+	public boolean collect( Bag container, boolean stack ) {
+
 		ArrayList<Item> items = container.items;
+		ArrayList<Item> equips=null;
+		if (Dungeon.hero!=null){
+			equips=Dungeon.hero.belongings.equips();
+		}
 		
 		if (items.contains( this )) {
 			return true;
 		}
 		
-		for (Item item:items) {
+		for (Item item:GameArrays.merge(items,equips)) {
 			if (item instanceof Bag && ((Bag)item).grab( this )) {
 				return collect( (Bag)item );
 			}
 		}
 		
-		if (stackable) {
-			for (Item item:items) {
+		if (stackable&&stack) {
+			for (Item item:GameArrays.merge(items,equips)) {
 				if (isSimilar( item )) {
 					item.merge( this );
 					item.updateQuickslot();
@@ -191,7 +215,7 @@ public class Item implements Bundlable {
 		}
 		
 		if (items.size() < container.size) {
-			
+
 			if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
 				Badges.validateItemLevelAquired( this );
 			}
@@ -221,11 +245,7 @@ public class Item implements Bundlable {
 		} else {
 			try {
 
-				//pssh, who needs copy constructors?
-				Item split = getClass().newInstance();
-				Bundle copy = new Bundle();
-				this.storeInBundle(copy);
-				split.restoreFromBundle(copy);
+				Item split = clone();
 				split.quantity(amount);
 				quantity -= amount;
 
@@ -246,7 +266,7 @@ public class Item implements Bundlable {
 		} else
 		if (quantity == 1) {
 
-			if (stackable || this instanceof Boomerang){
+			if (stackable && !(this instanceof MissileWeapon)){
 				Dungeon.quickslot.convertToPlaceholder(this);
 			}
 			return detachAll( container );
@@ -283,7 +303,7 @@ public class Item implements Bundlable {
 	}
 	
 	public boolean isSimilar( Item item ) {
-		return getClass() == item.getClass();
+		return item!=null && getClass() == item.getClass();
 	}
 
 	protected void onDetach(){}
@@ -384,6 +404,10 @@ public class Item implements Bundlable {
 	public String name() {
 		return name;
 	}
+
+	public boolean active(){
+		return true;
+	}
 	
 	public final String trueName() {
 		return name;
@@ -454,7 +478,7 @@ public class Item implements Bundlable {
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
-		bundle.put( QUANTITY, quantity );
+		Bundlable.super.storeInBundle(bundle);
 		bundle.put( LEVEL, level );
 		bundle.put( LEVEL_KNOWN, levelKnown );
 		bundle.put( CURSED, cursed );
@@ -466,7 +490,7 @@ public class Item implements Bundlable {
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		quantity	= bundle.getInt( QUANTITY );
+		Bundlable.super.restoreFromBundle(bundle);
 		levelKnown	= bundle.getBoolean( LEVEL_KNOWN );
 		cursedKnown	= bundle.getBoolean( CURSED_KNOWN );
 		
@@ -509,34 +533,42 @@ public class Item implements Bundlable {
 					reset(user.sprite,
 							enemy.sprite,
 							this,
-							new Callback() {
-						@Override
-						public void call() {
-							Item.this.detach(user.belongings.backpack).onThrow(cell);
-							user.spendAndNext(delay);
-						}
-					});
+							() -> {
+								Item.this.detach(user.belongings.backpack).onThrow(cell);
+								user.spendAndNext(delay);
+							});
 		} else {
 			((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
 					reset(user.sprite,
 							cell,
 							this,
-							new Callback() {
-						@Override
-						public void call() {
-							Item.this.detach(user.belongings.backpack).onThrow(cell);
-							user.spendAndNext(delay);
-						}
-					});
+							() -> {
+								Item.this.detach(user.belongings.backpack).onThrow(cell);
+								user.spendAndNext(delay);
+							});
 		}
 	}
 
-	public float castDelay( Char user, int dst ){
+	@Override
+	protected Item clone() {
+		try {
+			Bundle b = new Bundle();
+			storeInBundle(b);
+			Item itm = ClassReflection.newInstance(getClass());
+			itm.restoreFromBundle(b);
+			return itm;
+		} catch (ReflectionException e){
+			return null;
+		}
+	}
+
+	public float castDelay(Char user, int dst ){
 		return TIME_TO_THROW;
 	}
 
-	protected static Hero curUser = null;
-	protected static Item curItem = null;
+	protected static Hero curUser		 = null;
+	protected static Item curItem		 = null;
+	public 	  static int  curBallistica	 = Ballistica.PROJECTILE;
 	protected static CellSelector.Listener thrower = new CellSelector.Listener() {
 		@Override
 		public void onSelect( Integer target ) {

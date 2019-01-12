@@ -27,15 +27,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.BadgeBanner;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextMultiline;
 import com.watabou.glwrap.Blending;
 import com.watabou.glwrap.Texture;
-import com.watabou.noosa.BitmapText;
+import com.watabou.noosa.*;
 import com.watabou.noosa.BitmapText.Font;
-import com.watabou.noosa.BitmapTextMultiline;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.ColorBlock;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.RenderedText;
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.Visual;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.BitmapCache;
 

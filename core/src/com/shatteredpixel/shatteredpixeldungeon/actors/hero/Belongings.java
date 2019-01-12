@@ -22,8 +22,8 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.belongings.WeaponHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -38,6 +38,8 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class Belongings implements Iterable<Item> {
@@ -48,7 +50,7 @@ public class Belongings implements Iterable<Item> {
 	
 	public Bag backpack;
 
-	public KindOfWeapon weapon = null;
+	public WeaponHolder weapon = null;
 	public Armor armor = null;
 	public KindofMisc misc1 = null;
 	public KindofMisc misc2 = null;
@@ -61,6 +63,8 @@ public class Belongings implements Iterable<Item> {
 			size = BACKPACK_SIZE;
 		}};
 		backpack.owner = owner;
+		weapon = new WeaponHolder();
+//		weapon.owner=owner;
 	}
 	
 	private static final String WEAPON		= "weapon";
@@ -106,9 +110,12 @@ public class Belongings implements Iterable<Item> {
 		backpack.clear();
 		backpack.restoreFromBundle( bundle );
 		
-		weapon = (KindOfWeapon) bundle.get(WEAPON);
-		if (weapon != null) {
-			weapon.activate(owner);
+		weapon = (WeaponHolder) bundle.get(WEAPON);
+		if (weapon.right != null) {
+			weapon.right.activate(owner);
+		}
+		if (weapon.left != null) {
+			weapon.left.activate(owner);
 		}
 		
 		armor = (Armor)bundle.get( ARMOR );
@@ -133,6 +140,16 @@ public class Belongings implements Iterable<Item> {
 		} else {
 			info.armorTier = 0;
 		}
+	}
+
+	public ArrayList<Item> equips(){
+		return new ArrayList<>(Arrays.asList(
+				weapon.right,
+				weapon.left,
+				armor,
+				misc1,
+				misc2
+		));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -165,9 +182,13 @@ public class Belongings implements Iterable<Item> {
 	}
 	
 	public void observe() {
-		if (weapon != null) {
-			weapon.identify();
-			Badges.validateItemLevelAquired( weapon );
+		if (weapon.right != null) {
+			weapon.right.identify();
+			Badges.validateItemLevelAquired( weapon.right );
+		}
+		if (weapon.left != null) {
+			weapon.left.identify();
+			Badges.validateItemLevelAquired( weapon.left );
 		}
 		if (armor != null) {
 			armor.identify();
@@ -187,7 +208,7 @@ public class Belongings implements Iterable<Item> {
 	}
 	
 	public void uncurseEquipped() {
-		ScrollOfRemoveCurse.uncurse( owner, armor, weapon, misc1, misc2);
+		ScrollOfRemoveCurse.uncurse( owner, armor, weapon.left, weapon.right, misc1, misc2);
 	}
 	
 	public Item randomUnequipped() {
@@ -212,12 +233,17 @@ public class Belongings implements Iterable<Item> {
 				item.detachAll( backpack );
 			}
 		}
-		
-		if (weapon != null) {
-			weapon.cursed = false;
-			weapon.activate( owner );
+
+		if (weapon.right != null) {
+			weapon.right.cursed = false;
+			weapon.right.activate( owner );
 		}
-		
+
+		if (weapon.left != null) {
+			weapon.left.cursed = false;
+			weapon.left.activate( owner );
+		}
+
 		if (armor != null) {
 			armor.cursed = false;
 			armor.activate( owner );
@@ -245,6 +271,26 @@ public class Belongings implements Iterable<Item> {
 		return count;
 	}
 
+	public boolean removeExactItem(Item itm){
+		for (Iterator<Item> iterator = iterator(); iterator.hasNext();){
+			if (iterator.next()==itm){
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean removeUUIDItem(Item itm, boolean placeholderMode){
+		for (Iterator<Item> iterator = iterator(); iterator.hasNext();){
+			Item cur = iterator.next();
+			if (cur.uuid.equals(itm.uuid) && (cur.isPlaceholder() || !placeholderMode)){
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public Iterator<Item> iterator() {
 		return new ItemIterator();
@@ -256,7 +302,7 @@ public class Belongings implements Iterable<Item> {
 		
 		private Iterator<Item> backpackIterator = backpack.iterator();
 		
-		private Item[] equipped = {weapon, armor, misc1, misc2};
+		private Item[] equipped = {weapon.right, weapon.left, armor, misc1, misc2};
 		private int backpackIndex = equipped.length;
 		
 		@Override
@@ -288,15 +334,18 @@ public class Belongings implements Iterable<Item> {
 		public void remove() {
 			switch (index) {
 			case 0:
-				equipped[0] = weapon = null;
+				equipped[0] = weapon.right = null;
 				break;
 			case 1:
-				equipped[1] = armor = null;
+				equipped[0] = weapon.left = null;
 				break;
 			case 2:
-				equipped[2] = misc1 = null;
+				equipped[1] = armor = null;
 				break;
 			case 3:
+				equipped[2] = misc1 = null;
+				break;
+			case 4:
 				equipped[3] = misc2 = null;
 				break;
 			default:

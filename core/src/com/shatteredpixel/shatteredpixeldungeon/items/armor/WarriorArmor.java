@@ -21,6 +21,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -47,6 +48,8 @@ public class WarriorArmor extends ClassArmor {
 
 	@Override
 	public void doSpecial() {
+		GameScene.aimHelper=true;
+		curBallistica=Ballistica.PROJECTILE;
 		GameScene.selectCell( leaper );
 	}
 	

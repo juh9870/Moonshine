@@ -24,12 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.messages;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.watabou.utils.DeviceCompat;
 
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /*
 	Simple wrapper class for java resource bundles.

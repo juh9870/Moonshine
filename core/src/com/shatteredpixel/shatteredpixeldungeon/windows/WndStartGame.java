@@ -21,12 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
-import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
@@ -190,11 +185,11 @@ public class WndStartGame extends Window {
 		public void update() {
 			super.update();
 			if (cl != GamesInProgress.selectedClass){
-				if (cl == HeroClass.HUNTRESS && !Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)){
-					hero.brightness( 0f );
-				} else {
+//				if (cl == HeroClass.HUNTRESS && !Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)){
+//					hero.brightness( 0f );
+//				} else {
 					hero.brightness(0.6f);
-				}
+//				}
 			} else {
 				hero.brightness(1f);
 			}
@@ -204,12 +199,12 @@ public class WndStartGame extends Window {
 		protected void onClick() {
 			super.onClick();
 			
-			if( cl == HeroClass.HUNTRESS && !Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)){
-				ShatteredPixelDungeon.scene().add(
-						new WndMessage(Messages.get(WndStartGame.class, "huntress_unlock")));
-			} else {
+//			if( cl == HeroClass.HUNTRESS && !Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)){
+//				ShatteredPixelDungeon.scene().add(
+//						new WndMessage(Messages.get(WndStartGame.class, "huntress_unlock")));
+//			} else {
 				GamesInProgress.selectedClass = cl;
-			}
+//			}
 		}
 	}
 	

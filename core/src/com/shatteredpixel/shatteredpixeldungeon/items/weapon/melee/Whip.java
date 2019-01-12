@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class Whip extends MeleeWeapon {
 
 	{
+		weight=0.66f;
 		image = ItemSpriteSheet.WHIP;
 
 		tier = 3;

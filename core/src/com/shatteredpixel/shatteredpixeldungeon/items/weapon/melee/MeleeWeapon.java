@@ -28,8 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Random;
 
 public class MeleeWeapon extends Weapon {
-	
-	public int tier;
 
 	@Override
 	public int min(int lvl) {

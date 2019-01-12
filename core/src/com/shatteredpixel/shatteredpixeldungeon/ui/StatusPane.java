@@ -33,12 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndGame;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndJournal;
 import com.watabou.input.NoosaInputProcessor;
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.NinePatch;
-import com.watabou.noosa.TouchArea;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Button;
@@ -354,6 +349,7 @@ public class StatusPane extends Component {
 	private static class MenuButton extends Button {
 
 		private Image image;
+		private Image rune;
 
 		public MenuButton() {
 			super();
@@ -368,6 +364,8 @@ public class StatusPane extends Component {
 
 			image = new Image( Assets.MENU, 17, 2, 12, 11 );
 			add( image );
+			rune=Runes.get(Dungeon.rune);
+			add(rune);
 		}
 
 		@Override
@@ -376,17 +374,22 @@ public class StatusPane extends Component {
 
 			image.x = x + 2;
 			image.y = y + 2;
+
+			rune.x=image.x+(image.width-rune.width)/2;
+			rune.y=image.y+(image.height-rune.height)/2+1;
 		}
 
 		@Override
 		protected void onTouchDown() {
 			image.brightness( 1.5f );
+			rune.brightness( 1.5f );
 			Sample.INSTANCE.play( Assets.SND_CLICK );
 		}
 
 		@Override
 		protected void onTouchUp() {
 			image.resetColor();
+			rune.resetColor();
 		}
 
 		@Override

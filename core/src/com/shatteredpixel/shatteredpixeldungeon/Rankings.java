@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
+import com.watabou.utils.Storeable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -239,25 +240,25 @@ public enum Rankings {
 	public static class Record implements Bundlable {
 
 		private static final String CAUSE   = "cause";
-		private static final String WIN		= "win";
-		private static final String SCORE	= "score";
-		private static final String TIER	= "tier";
-		private static final String LEVEL	= "level";
-		private static final String DEPTH	= "depth";
 		private static final String DATA	= "gameData";
 		private static final String ID      = "gameID";
 
 		public Class cause;
+		@Storeable
 		public boolean win;
 
 		public HeroClass heroClass;
+		@Storeable
 		public int armorTier;
+		@Storeable
 		public int herolevel;
+		@Storeable
 		public int depth;
 
 		public Bundle gameData;
 		public String gameID;
 
+		@Storeable
 		public int score;
 
 		public String desc(){
@@ -275,50 +276,33 @@ public enum Rankings {
 
 		@Override
 		public void restoreFromBundle( Bundle bundle ) {
-			
+			Bundlable.super.restoreFromBundle(bundle);
+
 			if (bundle.contains( CAUSE )) {
 				cause   = bundle.getClass( CAUSE );
 			} else {
 				cause = null;
 			}
-			
-			win		= bundle.getBoolean( WIN );
-			score	= bundle.getInt( SCORE );
 
 			heroClass	= HeroClass.restoreInBundle( bundle );
-			armorTier	= bundle.getInt( TIER );
 			
 			if (bundle.contains(DATA))  gameData = bundle.getBundle(DATA);
 			if (bundle.contains(ID))   gameID = bundle.getString(ID);
 			
 			if (gameID == null) gameID = UUID.randomUUID().toString();
-
-			depth = bundle.getInt( DEPTH );
-			herolevel = bundle.getInt( LEVEL );
 		}
 
 		@Override
 		public void storeInBundle( Bundle bundle ) {
-
+			Bundlable.super.storeInBundle(bundle);
 			if (cause != null) bundle.put( CAUSE, cause );
 
-			bundle.put( WIN, win );
-			bundle.put( SCORE, score );
-
 			heroClass.storeInBundle( bundle );
-			bundle.put( TIER, armorTier );
-			bundle.put( LEVEL, herolevel );
-			bundle.put( DEPTH, depth );
 
 			if (gameData != null) bundle.put( DATA, gameData );
 			bundle.put( ID, gameID );
 		}
 	}
 
-	private static final Comparator<Record> scoreComparator = new Comparator<Rankings.Record>() {
-		@Override
-		public int compare( Record lhs, Record rhs ) {
-			return (int)Math.signum( rhs.score - lhs.score );
-		}
-	};
+	private static final Comparator<Record> scoreComparator = (lhs, rhs) -> (int)Math.signum( rhs.score - lhs.score );
 }

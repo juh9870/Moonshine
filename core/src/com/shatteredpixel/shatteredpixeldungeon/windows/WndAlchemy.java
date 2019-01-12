@@ -28,18 +28,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTerrainTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ItemSlot;
-import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextMultiline;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -217,11 +212,7 @@ public class WndAlchemy extends Window {
 				if (item != null && inputs[0] != null) {
 					for (int i = 0; i < inputs.length; i++) {
 						if (inputs[i].item == null) {
-							if (item instanceof Dart) {
-								inputs[i].item(item.detachAll(Dungeon.hero.belongings.backpack));
-							} else {
-								inputs[i].item(item.detach(Dungeon.hero.belongings.backpack));
-							}
+							inputs[i].item(item.detach(Dungeon.hero.belongings.backpack));
 							break;
 						}
 					}

@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.watabou.noosa.audio.Sample;
@@ -75,7 +75,7 @@ public class WornDartTrap extends Trap {
 					protected boolean act() {
 						final Actor toRemove = this;
 						((MissileSprite) ShatteredPixelDungeon.scene().recycle(MissileSprite.class)).
-							reset(pos, finalTarget.sprite, new Dart(), new Callback() {
+							reset(pos, finalTarget.sprite, new Shuriken(), new Callback() {
 								@Override
 								public void call() {
 								int dmg = Random.NormalIntRange(1, 4) - finalTarget.drRoll();

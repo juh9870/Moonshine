@@ -54,80 +54,15 @@ public class ShatteredPixelDungeon extends Game<GameAction> {
 		Game.versionCode = platformSupport.getVersionCode();
 		
 		//v0.6.2
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.RatKingRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.RatKingRoom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.PlantsRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.GardenRoom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.GardenRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.FoliageRoom" );
-		
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornTrap" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonDartTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.PoisonTrap" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.ParalyticTrap" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.LightningTrap" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrippingTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.SpearTrap" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.FireTrap" );
-		
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity.class,
-				"com.shatteredpixel.shatteredpixeldungeon.actors.buffs.GasesImmunity" );
-
-		//v0.6.3
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tamahawk" );
-
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Dart" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.IncendiaryDart.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.IncendiaryDart" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ParalyticDart.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.CurareDart" );
-
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfCorrosion.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfVenom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas.class,
-				"com.shatteredpixel.shatteredpixeldungeon.actors.blobs.VenomGas" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion.class,
-				"com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Venom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.levels.traps.CorrosionTrap.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.traps.VenomTrap" );
-		
-		//v0.6.4
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.bags.SeedPouch" );
-		
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.bags.WandHolster" );
-		
-		//v0.6.5
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.Weightstone" );
+//		com.watabou.utils.Bundle.addAlias(
+//				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.RatKingRoom.class,
+//				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.RatKingRoom" );
+//		com.watabou.utils.Bundle.addAlias(
+//				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.PlantsRoom.class,
+//				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.GardenRoom" );
+//		com.watabou.utils.Bundle.addAlias(
+//				com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.GardenRoom.class,
+//				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.FoliageRoom" );
 		
 	}
 

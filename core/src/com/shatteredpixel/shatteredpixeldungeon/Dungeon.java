@@ -41,36 +41,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CavesBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CavesLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CityBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CityLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.HallsBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.HallsLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LastLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LastShopLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.*;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Runes;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndAlchemy;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.watabou.noosa.Game;
-import com.watabou.utils.Bundlable;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.FileUtils;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
-import com.watabou.utils.SparseArray;
+import com.watabou.utils.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -186,6 +169,8 @@ public class Dungeon {
 	public static int version;
 
 	public static long seed;
+
+	public static int rune;
 	
 	public static void init() {
 
@@ -216,6 +201,7 @@ public class Dungeon {
 		
 		depth = 0;
 		gold = 0;
+		rune= Runes.random();
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
 
@@ -453,7 +439,8 @@ public class Dungeon {
 	private static final String CHAPTERS	= "chapters";
 	private static final String QUESTS		= "quests";
 	private static final String BADGES		= "badges";
-	
+	private static final String RUNE		= "rune";
+
 	public static void saveGame( int save ) throws IOException {
 		try {
 			Bundle bundle = new Bundle();
@@ -465,6 +452,7 @@ public class Dungeon {
 			bundle.put( HERO, hero );
 			bundle.put( GOLD, gold );
 			bundle.put( DEPTH, depth );
+			bundle.put( RUNE, rune );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -557,6 +545,8 @@ public class Dungeon {
 
 		quickslot.reset();
 		QuickSlotButton.reset();
+
+		rune = bundle.getInt(RUNE);
 
 		Dungeon.challenges = bundle.getInt( CHALLENGES );
 		

@@ -22,7 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ParalyticDart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.watabou.noosa.MovieClip;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.utils.Callback;
@@ -60,12 +60,7 @@ public class GnollTricksterSprite extends MobSprite {
 		if (!Dungeon.level.adjacent(cell, ch.pos)) {
 
 			((MissileSprite)parent.recycle( MissileSprite.class )).
-					reset( ch.pos, cell, new ParalyticDart(), new Callback() {
-						@Override
-						public void call() {
-							ch.onAttackComplete();
-						}
-					} );
+					reset( ch.pos, cell, new Shuriken(), () -> ch.onAttackComplete());
 
 			play( cast );
 			turnTo( ch.pos , cell );

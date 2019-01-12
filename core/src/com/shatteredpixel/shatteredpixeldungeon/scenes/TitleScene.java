@@ -28,22 +28,15 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Fireball;
 import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ChangesButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.LanguageButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.PrefsButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.UpdateNotification;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndStartGame;
 import com.watabou.glwrap.Blending;
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.RenderedText;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.tweeners.Tweener;
 import com.watabou.noosa.ui.Button;
+import com.watabou.utils.Random;
 
 public class TitleScene extends PixelScene {
 	
@@ -76,27 +69,43 @@ public class TitleScene extends PixelScene {
 
 		align(title);
 
-		placeTorch(title.x + 22, title.y + 46);
-		placeTorch(title.x + title.width - 22, title.y + 46);
+		float yRaise = 2;
+		float yMotion = 2;
+		float timeCycle = 2;
+		float xDistance = 0;
 
-		Image signs = new Image( BannerSprites.get( BannerSprites.Type.PIXEL_DUNGEON_SIGNS ) ) {
-			private float time = 0;
+		Image cloudLeft = new Image(BannerSprites.get( BannerSprites.Type.CLOUD_LEFT)){
+			float initY=-1;
+			int arg = Random.Int(60);
 			@Override
 			public void update() {
 				super.update();
-				am = Math.max(0f, (float)Math.sin( time += Game.elapsed ));
-				if (time >= 1.5f*Math.PI) time = 0;
-			}
-			@Override
-			public void draw() {
-				Blending.setLightMode();
-				super.draw();
-				Blending.setNormalMode();
+				if (initY==-1)initY=y;
+				y=(float)(initY+yMotion*Math.sin((Math.PI*arg)/(60*timeCycle)));
+				arg++;
 			}
 		};
-		signs.x = title.x + (title.width() - signs.width())/2f;
-		signs.y = title.y;
-		add( signs );
+		add(cloudLeft);
+		cloudLeft.x=title.x-15-xDistance;
+		cloudLeft.y=title.y+title.height()-cloudLeft.height()+6+yRaise;
+
+		Image cloudRight = new Image(BannerSprites.get( BannerSprites.Type.CLOUD_RIGHT)){
+			float initY=-1;
+			int arg = Random.Int(60);
+			@Override
+			public void update() {
+				super.update();
+				if (initY==-1)initY=y;
+				y=(float)(initY+yMotion*Math.sin((Math.PI*arg)/(60*timeCycle)));
+				arg++;
+			}
+		};
+		add(cloudRight);
+		cloudRight.x=title.x+title.width()-cloudRight.width()+15+xDistance;
+		cloudRight.y=title.y+title.height()-cloudRight.height()+8+yRaise;
+
+//		placeTorch(title.x + 22, title.y + 46);
+//		placeTorch(title.x + title.width - 22, title.y + 46);
 
 		DashboardItem btnBadges = new DashboardItem( Messages.get(this, "badges"), 3 ) {
 			@Override
@@ -179,7 +188,7 @@ public class TitleScene extends PixelScene {
 
 		fadeIn();
 	}
-	
+
 	private void placeTorch( float x, float y ) {
 		Fireball fb = new Fireball();
 		fb.setPos( x, y );

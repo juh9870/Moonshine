@@ -22,7 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.utils.Callback;
 
@@ -80,12 +80,7 @@ public class ScorpioSprite extends MobSprite {
 			idle();
 			
 			((MissileSprite)parent.recycle( MissileSprite.class )).
-			reset( ch.pos, cellToAttack, new Dart(), new Callback() {
-				@Override
-				public void call() {
-					ch.onAttackComplete();
-				}
-			} );
+			reset( ch.pos, cellToAttack, new Shuriken(), (Callback) () -> ch.onAttackComplete());
 		} else {
 			super.onComplete( anim );
 		}

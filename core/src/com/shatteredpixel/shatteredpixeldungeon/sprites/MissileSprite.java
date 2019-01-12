@@ -23,15 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Shuriken;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.*;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.tweeners.PosTweener;
@@ -79,18 +71,16 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 	
 	private static final HashMap<Class<?extends Item>, Integer> ANGULAR_SPEEDS = new HashMap<>();
 	static {
-		ANGULAR_SPEEDS.put(Dart.class,          0);
 		ANGULAR_SPEEDS.put(ThrowingKnife.class, 0);
 		ANGULAR_SPEEDS.put(FishingSpear.class,  0);
-		ANGULAR_SPEEDS.put(ThrowingSpear.class, 0);
-		ANGULAR_SPEEDS.put(Javelin.class,       0);
-		ANGULAR_SPEEDS.put(Trident.class,       0);
-		
+		ANGULAR_SPEEDS.put(CastNet.class,  0);
+
 		//720 is default
 		
 		ANGULAR_SPEEDS.put(Boomerang.class,     1440);
 		ANGULAR_SPEEDS.put(Bolas.class,         1440);
-		
+		ANGULAR_SPEEDS.put(ThrowingClub.class,         1440);
+
 		ANGULAR_SPEEDS.put(Shuriken.class,      2160);
 	}
 
@@ -128,9 +118,9 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		}
 		
 		float speed = SPEED;
-		if (item instanceof Dart && Dungeon.hero.belongings.weapon instanceof Crossbow){
-			speed *= 3f;
-		}
+//		if (item instanceof Dart && Dungeon.hero.belongings.weapon.currentWeapon() instanceof Crossbow){
+//			speed *= 3f;
+//		}
 		PosTweener tweener = new PosTweener( this, to, d.length() / speed );
 		tweener.listener = this;
 		parent.add( tweener );
