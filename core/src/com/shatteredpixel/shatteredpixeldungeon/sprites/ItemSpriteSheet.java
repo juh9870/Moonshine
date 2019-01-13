@@ -142,7 +142,7 @@ public class  ItemSpriteSheet {
 	public static final int FUSIL 			= GUNS+4;
 	public static final int MORTAR			= GUNS+5;
 	static{
-		assignItemRect(HANDCRAFTGUN, 10, 13);
+		assignItemRect(HANDCRAFTGUN, 11, 14);
 		assignItemRect(PISTOL,		 12, 16);
 		assignItemRect(BLUNDERBUSS,	 13, 16);
 		assignItemRect(ARQUEBUS,	 14, 16);
