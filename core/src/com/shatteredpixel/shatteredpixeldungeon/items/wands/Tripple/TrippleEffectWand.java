@@ -2,6 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands.Tripple;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -10,7 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ballistica.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
@@ -150,7 +151,7 @@ public abstract class TrippleEffectWand extends Wand {
 
                 WandEffect curEffect=curWand.curEffect;
 
-                final Ballistica shot = new Ballistica( curUser.pos, target, curEffect.collisionProperties);
+                final Ballistica shot = new Ballistica( curUser.pos, target, curEffect.collisionProperties, SPDSettings.preciseAim());
                 int cell = shot.collisionPos;
 
                 if (target == curUser.pos || cell == curUser.pos) {
@@ -171,7 +172,7 @@ public abstract class TrippleEffectWand extends Wand {
                     curUser.busy();
 
                     if (curWand.cursed){
-                        CursedWand.cursedZap(curWand, curUser, new Ballistica( curUser.pos, target, Ballistica.MAGIC_BOLT));
+                        CursedWand.cursedZap(curWand, curUser, new Ballistica( curUser.pos, target, Ballistica.MAGIC_BOLT, SPDSettings.preciseAim()));
                         if (!curWand.cursedKnown){
                             curWand.cursedKnown = true;
                             GLog.n(Messages.get(Wand.class, "curse_discover", curWand.name()));

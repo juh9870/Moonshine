@@ -278,16 +278,30 @@ public class WndSettings extends WndTabbed {
 				add(btnKeymap);
 
 			}
-			final CheckBox chkAimHelper = new CheckBox(Messages.get(this, "aimhelper")){
+
+			String[] texts = new String[]{
+					Messages.get(this,"aimdefault"),
+					Messages.get(this,"aimhelper"),
+					Messages.get(this,"aimprecise")
+			};
+
+			final RedButton aimHelper = new RedButton(Messages.get(this, "aimtype", texts[SPDSettings.aimType()])){
+
 				@Override
 				protected void onClick() {
 					super.onClick();
-					SPDSettings.aimhelper(checked());
+					add(new WndOptions(Messages.get(UITab.class,"aimtype", texts[SPDSettings.aimType()]),"",texts){
+						@Override
+						protected void onSelect(int index) {
+							super.onSelect(index);
+							SPDSettings.aimType(index);
+							text(Messages.get(UITab.class, "aimtype", texts[index]));
+						}
+					});
 				}
 			};
-			chkAimHelper.setRect(0, last.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
-			chkAimHelper.checked(SPDSettings.aimhelper());
-			add(chkAimHelper);
+			aimHelper.setRect(0, last.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
+			add(aimHelper);
 		}
 
 	}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
@@ -20,7 +21,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.HighGrass;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ballistica.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -83,6 +84,8 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 	protected float DEBUFF_RATE = 0.0f;
 	protected int DEBUFF_TRIES = 1;
 	protected int CONSUMABLE_COUNT = 0;
+
+	protected int AIMHELPER_BALLISTICA = Ballistica.PIERCE_LOS_BLOCKING | Ballistica.STOP_TERRAIN;
 
 
 	public Class<? extends Collector> collector() {
@@ -217,11 +220,9 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 			spend = onReload(hero);
 		}
 		if (spend != 0) {
-			if (hero.sprite != null)
-				hero.sprite.operate(hero.pos);
-			hero.spendAndNext(spend);
+			hero.sprite.operate(hero.pos);
 		} else {
-			hero.spendAndNext(0);
+			hero.next();
 		}
 	}
 
@@ -258,6 +259,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 
 	public boolean shot(Hero hero) {
 		if (load.hasAmmo()) {
+			curBallistica=AIMHELPER_BALLISTICA;
 			GameScene.selectCell(shooter);
 			return true;
 		}
@@ -267,7 +269,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 	public ShotInfo buildShotPath(Hero hero, int target, T ammo) {
 		ShotInfo si = new ShotInfo();
 
-		Ballistica shot = new Ballistica(hero.pos, target, Ballistica.WONT_STOP);
+		Ballistica shot = new Ballistica(hero.pos, target, AIMHELPER_BALLISTICA, SPDSettings.preciseAim());
 
 		si.path = new ArrayList<>();
 		si.targets = new HashMap<>();
@@ -392,7 +394,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 
 			if (shot.targ == -1) {
 				GLog.i(Messages.get(this, "self_target"));
-				hero.spendAndNext(0);
+				hero.next();
 				return;
 			}
 
@@ -469,7 +471,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 			WandOfBlastWave.throwChar(hero, trajectory, (int) (KNOCKBACK_POWER * attachManager.knockMod()), true, new Callback() {
 				@Override
 				public void call() {
-					hero.spendAndNext(0);
+					hero.next();
 				}
 			});
 			targ = new int[]{targ, targ + Random.element((Integer[]) GameArrays.wrap(PathFinder.NEIGHBOURS9))}[Random.chances(new float[]{2, 1})];
@@ -502,7 +504,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 
 	public void afterUse(Hero hero, Integer target) {
 		if (!delay)
-			hero.spendAndNext(0);
+			hero.next();
 		if (!isIdentified()) {
 			usagesToKnow--;
 			if (usagesToKnow <= 0) {
@@ -534,7 +536,7 @@ public abstract class Gun<T extends Item & Ammo> extends Weapon implements Range
 			dmg -= enemy.drRoll() * attachManager.enemyArmorMod() * ammo.armorPiercingRate();
 			dmg = attachManager.attackProc(enemy, dmg, this, ammo);
 			dmg = shotProc(enemy, dmg, this, ammo);
-			dmg = enemy.defenseProc(null, dmg);
+			dmg = enemy.defenseProc(curUser, dmg);
 
 			enemy.damage(dmg, ammo);
 			if (visibleFight) {

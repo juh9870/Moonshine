@@ -138,7 +138,7 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_FLIPTOOLBAR	= "flipped_ui";
 	public static final String KEY_FLIPTAGS 	= "flip_tags";
 	public static final String KEY_BARMODE		= "toolbar_mode";
-	public static final String KEY_AIMHELPER	= "aimhelper";
+	public static final String KEY_AIMTYPE		= "aimtype";
 
 	public static void quickSlots( int value ){ put( KEY_QUICKSLOTS, value ); }
 	
@@ -156,15 +156,29 @@ public class SPDSettings extends GameSettings {
 	
 	public static boolean flipTags(){ return getBoolean(KEY_FLIPTAGS, false); }
 
-	public static void aimhelper( boolean value) {
-		put(KEY_AIMHELPER, value );
-		aimhelper=value;
+
+	public static void aimType(int value){
+		put(KEY_AIMTYPE,value);
+		preciseAim = value==2;
+		aimhelper = value==1;
+	}
+
+	public static int aimType(){
+		return getInt(KEY_AIMTYPE,0);
+	}
+
+	private static Boolean preciseAim;
+	public static boolean preciseAim(){
+		if (preciseAim==null)
+			preciseAim=getInt(KEY_AIMTYPE, 0)==2;
+		return preciseAim;
 	}
 
 	private static Boolean aimhelper;
+
 	public static boolean aimhelper(){
 		if (aimhelper==null)
-			aimhelper=getBoolean(KEY_AIMHELPER, true);
+			aimhelper=getInt(KEY_AIMTYPE, 0)==1;
 		return aimhelper;
 	}
 	

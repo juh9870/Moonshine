@@ -40,7 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.ballistica.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -862,7 +862,7 @@ public class GameScene extends PixelScene {
 							hideTarget();
 							return;
 						}
-						Ballistica b = new Ballistica(Dungeon.hero.pos,cell,Item.curBallistica);
+						Ballistica b = new Ballistica(Dungeon.hero.pos,cell,Item.curBallistica, SPDSettings.preciseAim());
 						if ((b.collisionPos.equals(cell)&&(QuickSlotButton.lastTarget!=null&&QuickSlotButton.lastTarget.pos==cell))||
 								cell.equals(aimCell)){
 							listener.onSelect(cell);
