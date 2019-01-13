@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.YAPDBallistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -512,7 +513,8 @@ public class Item implements Bundlable {
 	}
 
 	public int throwPos( Hero user, int dst){
-		return new Ballistica( user.pos, dst, Ballistica.PROJECTILE ).collisionPos;
+		int a = new Ballistica( user.pos, dst, Ballistica.PROJECTILE ).collisionPos;
+		return new YAPDBallistica(user.pos,dst,false,true).collisionPos;
 	}
 	
 	public void cast( final Hero user, final int dst ) {
