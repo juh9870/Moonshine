@@ -1,9 +1,9 @@
 /*
  * Pixel Dungeon
- * Copyright (C) 2012-2015  Oleg Dolya
+ * Copyright (C) 2012-2015 Oleg Dolya
  *
- * Shattered Pixel Dungeon
- * Copyright (C) 2014-2016 Evan Debenham
+ * Yet Another Pixel Dungeon
+ * Copyright (C) 2015-2016 Considered Hamster
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.mechanics;
 
+
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -33,7 +34,7 @@ public final class Ballistica {
 	public ArrayList<Integer> path = new ArrayList<>();
 	public Integer sourcePos = null;
 	public Integer collisionPos = null;
-	public Integer dist = 0;
+	public int dist;
 
 	private int stepA;
 	private int stepB;
@@ -43,28 +44,25 @@ public final class Ballistica {
 	private boolean hit;
 
 	//parameters to specify the colliding cell
-	public static final int STOP_TARGET = 1; //ballistica will stop at the target cell
-	public static final int STOP_CHARS = 2; //ballistica will stop on first char hit
-	public static final int STOP_TERRAIN = 4; //ballistica will stop on terrain
-	public static final int STOP_LOS_BLOCKING = 8; //ballistica will stop on LOS blocking
-	public static final int PIERCE_DOORS = 16; //ballistica won't stop on Doors
+	public static final int STOP_TARGET = 1; 		//ballistica will stop at the target cell
+	public static final int STOP_CHARS = 2; 		//ballistica will stop on first char hit
+	public static final int STOP_TERRAIN = 4; 		//ballistica will stop on terrain
 
-	public static final int PROJECTILE = STOP_TARGET | STOP_CHARS | STOP_TERRAIN | STOP_LOS_BLOCKING;
+	public static final int PIERCE_LOS_BLOCKING = 8;//ballistica won't stop on LOS blocking
+	public static final int PIERCE_DOORS = 16; 		//ballistica won't stop on Doors
 
-	public static final int MAGIC_BOLT = STOP_CHARS | STOP_TERRAIN | STOP_LOS_BLOCKING;
+	public static final int PROJECTILE = STOP_TARGET | STOP_CHARS | STOP_TERRAIN ;
 
-	public static final int WONT_STOP = 0;
+	public static final int MAGIC_BOLT = STOP_CHARS | STOP_TERRAIN;
 
-	public Ballistica(int from, int to, int params) {
+	public static final int WONT_STOP = PIERCE_DOORS | PIERCE_LOS_BLOCKING;
+
+	public Ballistica(int from, int to, int params){
 		sourcePos = from;
-		cast(from, to, (params & STOP_TARGET) > 0, (params & STOP_CHARS) > 0, (params & STOP_TERRAIN) > 0, (params & STOP_LOS_BLOCKING) > 0, (params & PIERCE_DOORS) > 0);
-		if (collisionPos != null)
-			dist = path.indexOf(collisionPos);
-		else
-			collisionPos = path.get(dist = path.size() - 1);
+		collisionPos=cast(from, to, (params & STOP_TARGET) > 0, (params & STOP_CHARS) > 0, (params & STOP_TERRAIN) > 0, (params & PIERCE_LOS_BLOCKING) > 0, (params & PIERCE_DOORS) > 0);
 	}
 
-	private int cast(int from, int to, boolean stopTarget, boolean stopChars, boolean stopTerrain, boolean stopLOS, boolean pierceDoors) {
+	private int cast(int from, int to, boolean stopTarget, boolean stopChars, boolean stopTerrain, boolean pierceLOS, boolean pierceDoors) {
 
 		int w = Dungeon.level.width();
 
@@ -98,12 +96,12 @@ public final class Ballistica {
 
 		}
 
-		int cell = calc(from, to, stopChars, stopTarget, stopTerrain, stopLOS, pierceDoors, dA / 2);
+		int cell = calc(from, to, stopChars, stopTarget, stopTerrain, pierceLOS, pierceDoors, dA / 2);
 
 		if (!hit) {
 
 			for (int err = 0; err <= dA; err++) {
-				int calc = calc(from, to, stopChars, stopTerrain, stopTarget, stopLOS, pierceDoors, err);
+				int calc = calc(from, to, stopChars, stopTerrain, stopTarget, pierceLOS, pierceDoors, err);
 				if (hit) {
 					cell = calc;
 					break;
@@ -115,76 +113,59 @@ public final class Ballistica {
 
 	}
 
-	private int calc(int from, int to, boolean stopTarget, boolean stopChars, boolean stopTerrain, boolean stopLOS, boolean pierceDoors, int err) {
+	private int calc(int from, int to, boolean stopTarget, boolean stopChars, boolean stopTerrain, boolean pierceLOS, boolean pierceDoors, int err) {
 
 		hit = false;
 		dist = 0;
+		path.clear();
 		path.add(from);
+
+		boolean collided = false;
 
 		int cell = from;
 
-		while (Dungeon.level.insideMap(cell)) {
+		while ( Dungeon.level.insideMap(cell) ) {
 
-			if (stopTerrain && cell != sourcePos && Dungeon.level.solid[cell] && !(pierceDoors && Dungeon.level.map[cell] == Terrain.DOOR)) {
-				collide(path.get(path.size() - 1));
-			}
-
-			path.add(cell);
-//            path[ distance + 1 ] = 0;
-
-			if (cell == to && collisionPos==null) {
-				hit = true;
-				if (stopTarget) {
-					collide(cell);
-				}
-			}
-			if (stopChars && cell != sourcePos && Actor.findChar(cell) != null) {
-				collide(cell);
-			}
-			if ((stopLOS && cell != sourcePos && Dungeon.level.losBlocking[cell]) && !(pierceDoors && Dungeon.level.map[cell] == Terrain.DOOR)) {
-				collide(cell);
-			}
+			cell += stepA;
 
 			err += dB;
 
-			if (err >= dA) {
+			if ( err >= dA ) {
 				err = err - dA;
 				cell = cell + stepB;
 			}
-			cell += stepA;
-			dist++;
 
-            /*// basically if current cell is not a wall
-            if ( Level.passable[ cell ] || Level.illusory[ cell ] || Level.avoid[ cell ] ) {
 
-                distance++;
-                path[ distance ] = cell;
-                path[ distance + 1 ] = 0;
 
-                // doors are also solid yet do not count as walls
-                if ( Level.solid[ cell ] || ( hitChars && Actor.findChar( cell ) != null ) ) {
-                    return path[ distance ];
-                }
+			path.add( cell );
 
-            } else {
+			if (!collided) {
 
-                // we need to keep the next cell for beam reflection logic
-                path[ distance + 1 ] = cell;
-                return path[ distance ];
+				dist++;
 
-            } */
+				if ( cell == to ) {
+					hit = true;
+					if (stopTarget){
+						collided=true;
+					}
+				}
+
+				if (stopTerrain && !Dungeon.level.passable[cell] && !Dungeon.level.avoid[cell]) {
+					do {
+						dist--;
+					} while (!Dungeon.level.passable[path.get(dist)] && !Dungeon.level.avoid[path.get(dist)]);
+					collided = true;
+				} else if (!pierceLOS && Dungeon.level.losBlocking[cell]){
+					collided = true;
+				} else if (stopChars && Actor.findChar(cell) != null) {
+					collided = true;
+				} else if (!pierceDoors&&Dungeon.level.map[cell] == Terrain.DOOR) {
+					collided = true;
+				}
+			}
 		}
 
-		// we need to reset the next cell for beam reflection logic
-//        path[ distance + 1 ] = 0;
-
-		return to;
-	}
-
-	//we only want to record the first position collision occurs at.
-	private void collide(int cell){
-		if (collisionPos == null)
-			collisionPos = cell;
+		return path.get(dist);
 	}
 
 	//returns a segment of the path from start to end, inclusive.
@@ -198,5 +179,4 @@ public final class Ballistica {
 			return new ArrayList<>();
 		}
 	}
-
 }

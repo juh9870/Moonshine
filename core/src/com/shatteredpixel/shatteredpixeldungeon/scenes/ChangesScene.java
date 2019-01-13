@@ -416,7 +416,7 @@ public class ChangesScene extends PixelScene {
 				"\n" +
 				"Dev commentary will be added here in the future."));
 		
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.TRIDENT, null), "Ranged Weapons Overhaul!",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.FISHING_SPEAR, null), "Ranged Weapons Overhaul!",
 				"Ranged weapons have been completely overhauled!\n\n" +
 				"_-_ Quantity of ranged weapons decreased, however most ranged weapons now last for several uses before breaking.\n\n" +
 				"_-_ Ranged weapon effectiveness increased significantly.\n\n" +

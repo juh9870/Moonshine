@@ -9,7 +9,7 @@ import com.watabou.utils.Random;
 
 public class ThrowingClub extends MissileWeapon {
     {
-        image = ItemSpriteSheet.WEAPON_HOLDER;
+        image = ItemSpriteSheet.THROWING_CLUB;
         tier=3;
     }
 

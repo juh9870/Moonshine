@@ -106,7 +106,11 @@ public class WandOfBlastWave extends DamageWand {
 		}
 	}
 
-	public static void throwChar(final Char ch, final Ballistica trajectory, int power){
+	public static void throwChar(final Char ch, final Ballistica trajectory, int power) {
+		throwChar(ch, trajectory, power, true,null);
+	}
+
+	public static void throwChar(final Char ch, final Ballistica trajectory, int power, boolean dealDmg, final Callback cb){
 		int dist = Math.min(trajectory.dist, power);
 
 		if (ch.properties().contains(Char.Property.BOSS))
@@ -134,13 +138,16 @@ public class WandOfBlastWave extends DamageWand {
 				}
 				ch.pos = newPos;
 				if (ch.pos == trajectory.collisionPos) {
-					ch.damage(Random.NormalIntRange((finalDist + 1) / 2, finalDist), this);
-					Paralysis.prolong(ch, Paralysis.class, Random.NormalIntRange((finalDist + 1) / 2, finalDist));
+					if (dealDmg) {
+						ch.damage(Random.NormalIntRange((finalDist + 1) / 2, finalDist), this);
+						Paralysis.prolong(ch, Paralysis.class, Random.NormalIntRange((finalDist + 1) / 2, finalDist));
+					}
 				}
 				Dungeon.level.press(ch.pos, ch, true);
 				if (ch == Dungeon.hero){
 					Dungeon.observe();
 				}
+				if (cb!=null)cb.call();
 			}
 		}), -1);
 	}

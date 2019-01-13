@@ -32,7 +32,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.YAPDBallistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -417,6 +416,10 @@ public class Item implements Bundlable {
 	public int image() {
 		return image;
 	}
+
+	public int throwImage(){
+		return image();
+	}
 	
 	public ItemSprite.Glowing glowing() {
 		return null;
@@ -513,8 +516,7 @@ public class Item implements Bundlable {
 	}
 
 	public int throwPos( Hero user, int dst){
-		int a = new Ballistica( user.pos, dst, Ballistica.PROJECTILE ).collisionPos;
-		return new YAPDBallistica(user.pos,dst,false,true).collisionPos;
+		return new Ballistica(user.pos,dst,Ballistica.PROJECTILE).collisionPos;
 	}
 	
 	public void cast( final Hero user, final int dst ) {
@@ -552,7 +554,7 @@ public class Item implements Bundlable {
 	}
 
 	@Override
-	protected Item clone() {
+	public Item clone() {
 		try {
 			Bundle b = new Bundle();
 			storeInBundle(b);

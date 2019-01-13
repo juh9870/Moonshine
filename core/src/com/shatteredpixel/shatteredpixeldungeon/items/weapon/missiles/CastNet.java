@@ -8,7 +8,7 @@ import com.watabou.utils.Random;
 
 public class CastNet extends MissileWeapon {
 	{
-		image=ItemSpriteSheet.WEAPON_HOLDER;
+		image=ItemSpriteSheet.CAST_NET;
 		tier=4;
 	}
 

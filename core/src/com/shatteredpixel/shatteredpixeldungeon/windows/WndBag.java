@@ -79,8 +79,10 @@ public class WndBag extends WndTabbed {
 		SCROLL,
 		UNIDED_POTION_OR_SCROLL,
 		EQUIPMENT,
-		ALCHEMY
+		ALCHEMY,
+		CLASS
 	}
+	public static Class<? extends Item> searchClass = Item.class;
 
 	protected static final int COLS_P    = 4;
 	protected static final int COLS_L    = 6;
@@ -419,6 +421,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.UNIDED_POTION_OR_SCROLL && (!item.isIdentified() && (item instanceof Scroll || item instanceof Potion)) ||
 						mode == Mode.EQUIPMENT && (item instanceof EquipableItem) ||
 						mode == Mode.ALCHEMY && ((item instanceof Seed && !(item instanceof BlandfruitBush.Seed)) || (item instanceof Blandfruit && ((Blandfruit) item).potionAttrib == null)) ||
+						mode == Mode.CLASS && (searchClass.isInstance(item)) ||
 						mode == Mode.ALL
 					);
 					//extra logic for cursed weapons or armor

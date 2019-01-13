@@ -29,9 +29,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourg
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.collectors.PowderHorn;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
+import com.shatteredpixel.shatteredpixeldungeon.items.guns.GunslingerPistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.guns.ammo.Bullet;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -108,6 +111,11 @@ public enum HeroClass {
 		w.collect();
 		new ThrowingKnife().upgrade(3).identify().collect();
 		new ThermalWand().identify().collect();
+		new GunslingerPistol().identify().upgrade(3).collect();
+		new Bullet(300).collect();
+		PowderHorn i = new PowderHorn();
+		i.fill();
+		i.collect();
 	}
 
 	public Badges.Badge masteryBadge() {
