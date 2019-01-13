@@ -54,10 +54,10 @@ public class BannerSprites {
 				icon.frame( icon.texture.uvRect( 133, 0, 255, 90 ) );
 				break;
 			case CLOUD_LEFT:
-				icon.frame( icon.texture.uvRect( 127, 3, 172, 32 ) );
+				icon.frame( icon.texture.uvRect( 126, 2, 173, 33 ) );
 				break;
 			case CLOUD_RIGHT:
-				icon.frame( icon.texture.uvRect( 201, 0, 250, 34 ) );
+				icon.frame( icon.texture.uvRect( 200, 0, 252, 36 ) );
 				break;
 		}
 		return icon;
