@@ -52,12 +52,12 @@ class PreciseBallistica extends Ballistica {
 
 		}
 
-		int cell = calc(from, to, stopChars, stopTarget, stopTerrain, pierceLOS, pierceDoors, dA / 2);
+		int cell = calc(from, to, stopTarget, stopChars , stopTerrain, pierceLOS, pierceDoors, dA / 2);
 
 		if (!hit) {
 
 			for (int err = 0; err <= dA; err++) {
-				int calc = calc(from, to, stopChars, stopTerrain, stopTarget, pierceLOS, pierceDoors, err);
+				int calc = calc(from, to, stopTarget, stopChars, stopTerrain, pierceLOS, pierceDoors, err);
 				if (hit) {
 					cell = calc;
 					break;

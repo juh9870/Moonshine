@@ -23,15 +23,25 @@ package com.watabou.utils;
 
 
 import java.lang.reflect.Field;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 public interface Bundlable {
 
 	default void storeInBundle(Bundle bundle ){
-		Class c = getClass();
+		Class c = getClass(),
+				_c=c;
+		ArrayList<String> fieldsNamesSet = new ArrayList<>();
+		ArrayList<Field> fieldsSet = new ArrayList<>();
 		do {
 			Field[] fields = c.getDeclaredFields();
 			for (Field f : fields) {
+				fieldsNamesSet.add(f.getName());
+				fieldsSet.add(f);
 				if (f.getAnnotation(Storeable.class) != null) {
+					int index = fieldsNamesSet.indexOf(f.getName());
+					if (index!=-1&&!fieldsSet.get(index).equals(f)) {
+						System.out.println("WARNING: Class " + _c + " have identical field with " + c + " named " + f.getName());
+					}
 					try {
 						f.setAccessible(true);
 						Object o = f.get(this);
