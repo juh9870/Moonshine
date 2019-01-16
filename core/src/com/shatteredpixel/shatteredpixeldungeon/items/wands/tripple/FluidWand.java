@@ -28,7 +28,8 @@ public class FluidWand extends TrippleEffectWand {
 		neutralEffect=new NormalEffect();
 		image=ItemSpriteSheet.WAND_REGROWTH;
 		randomizeEffect();
-		imbue=1;
+
+		collisionProperties=Ballistica.STOP_TERRAIN | Ballistica.STOP_TARGET | Ballistica.PIERCE_LOS_BLOCKING;
 	}
 
 	private class RootEffect extends NormalEffect {
@@ -116,6 +117,7 @@ public class FluidWand extends TrippleEffectWand {
 			int map = Dungeon.level.map[cell];
 			if (map == Terrain.EMPTY ||
 					map == Terrain.EMBERS ||
+					map == Terrain.GRASS ||
 					map == Terrain.EMPTY_DECO) {
 				Level.set( cell, Actor.findChar(cell)==null?Terrain.HIGH_GRASS:Terrain.GRASS );
 				GameScene.updateMap(cell);

@@ -60,9 +60,9 @@ public class HighGrass {
 			}
 		}
 
-		if (naturalismLevel >= 0) {
+		if (naturalismLevel >= 0 && !level.trampledCells[pos]) {
 			// Seed, scales from 1/16 to 1/4
-			if (Random.Int(16 - ((int) (naturalismLevel * 3))) == 0) {
+			if (Random.Int(16 - naturalismLevel * 3) == 0) {
 				Item seed = Generator.random(Generator.Category.SEED);
 
 				if (seed instanceof BlandfruitBush.Seed) {
@@ -78,6 +78,8 @@ public class HighGrass {
 			if (Random.Int(24 - naturalismLevel*3) <= 3) {
 				level.drop(new Dewdrop(), pos).sprite.drop();
 			}
+
+			level.trampledCells[pos]=true;
 		}
 
 		int leaves = 4;

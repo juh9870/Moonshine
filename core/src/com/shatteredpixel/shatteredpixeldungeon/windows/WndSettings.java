@@ -254,28 +254,27 @@ public class WndSettings extends WndTabbed {
 			add(chkFlipTags);
 
 			Component last = chkFlipTags;
-			if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
-				OptionSlider slots = new OptionSlider("Quickslots", "0", "4", 0, 4) {
-					@Override
-					protected void onChange() {
-						SPDSettings.quickSlots(getSelectedValue());
-						Toolbar.updateLayout();
-					}
-				};
-				last=slots;
-				slots.setSelectedValue(SPDSettings.quickSlots());
-				slots.setRect(0, chkFlipTags.bottom() + GAP_TINY, WIDTH, SLIDER_HEIGHT);
-				add(slots);
-			} else if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			OptionSlider slots = new OptionSlider("Quickslots", "0", "4", 0, 4) {
+				@Override
+				protected void onChange() {
+					SPDSettings.quickSlots(getSelectedValue());
+					Toolbar.updateLayout();
+				}
+			};
+			slots.setSelectedValue(SPDSettings.quickSlots());
+			slots.setRect(0, last.bottom() + GAP_TINY, WIDTH, SLIDER_HEIGHT);
+			add(slots);
+			last=slots;
+			if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
 				RedButton btnKeymap = new RedButton(TXT_BINDINGS) {
 					@Override
 					protected void onClick() {
 						Game.scene().add(new WndKeymap());
 					}
 				};
-				last=btnKeymap;
-				btnKeymap.setRect(0, chkFlipTags.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
+				btnKeymap.setRect(0, last.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 				add(btnKeymap);
+				last=btnKeymap;
 
 			}
 

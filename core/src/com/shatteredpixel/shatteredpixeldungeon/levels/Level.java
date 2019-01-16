@@ -93,6 +93,9 @@ public abstract class Level implements Bundlable {
 	public boolean[] avoid;
 	public boolean[] water;
 	public boolean[] pit;
+
+	@Storeable
+	public boolean[] trampledCells;
 	
 	public Feeling feeling = Feeling.NONE;
 	
@@ -212,6 +215,8 @@ public abstract class Level implements Bundlable {
 			customWalls = new HashSet<>();
 			
 		} while (!build());
+
+		trampledCells = new boolean[length];
 		
 		buildFlagMaps();
 		cleanWalls();
@@ -533,7 +538,7 @@ public abstract class Level implements Bundlable {
 	}
 
 	protected void buildFlagMaps() {
-		
+
 		for (int i=0; i < length(); i++) {
 			int flags = Terrain.flags[map[i]];
 			passable[i]		= (flags & Terrain.PASSABLE) != 0;
@@ -544,6 +549,10 @@ public abstract class Level implements Bundlable {
 			avoid[i]		= (flags & Terrain.AVOID) != 0;
 			water[i]		= (flags & Terrain.LIQUID) != 0;
 			pit[i]			= (flags & Terrain.PIT) != 0;
+
+			if (Dungeon.hero.heroClass==HeroClass.HUNTRESS && map[i]==Terrain.HIGH_GRASS){
+				losBlocking[i]=false;
+			}
 		}
 		
 		int lastRow = length() - width();
@@ -604,6 +613,8 @@ public abstract class Level implements Bundlable {
 		level.avoid[cell]			= (flags & Terrain.AVOID) != 0;
 		level.pit[cell]			    = (flags & Terrain.PIT) != 0;
 		level.water[cell]			= terrain == Terrain.WATER;
+
+		if (Dungeon.hero.heroClass==HeroClass.HUNTRESS && level.map[cell]==Terrain.HIGH_GRASS)level.losBlocking[cell]=false;
 	}
 	
 	public Heap drop( Item item, int cell ) {

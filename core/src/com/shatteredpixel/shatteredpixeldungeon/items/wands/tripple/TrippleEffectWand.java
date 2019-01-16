@@ -153,8 +153,6 @@ public abstract class TrippleEffectWand extends Wand {
 		public int chargesPerCast() {
 			return 1;
 		}
-
-		public int collisionProperties = Ballistica.MAGIC_BOLT;
 	}
 
 	public abstract class DamageWandEffect extends WandEffect implements Hero.Doom {
@@ -201,7 +199,7 @@ public abstract class TrippleEffectWand extends Wand {
 
 				WandEffect curEffect = curWand.curEffect;
 
-				final Ballistica shot = new Ballistica(curUser.pos, target, curEffect.collisionProperties, SPDSettings.preciseAim());
+				final Ballistica shot = new Ballistica(curUser.pos, target, curWand.collisionProperties, SPDSettings.preciseAim());
 				int cell = shot.collisionPos;
 
 				if (target == curUser.pos || cell == curUser.pos) {
