@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTerrainTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
@@ -405,7 +406,11 @@ public class Toolbar extends Component {
 		public void setWeapon(Item weapon) {
 			if (curSprite != null)
 				remove(curSprite);
-			add(curSprite = new ItemSprite(weapon));
+			if (weapon!=null){
+				add(curSprite = new ItemSprite(weapon));
+			} else {
+				add(curSprite = new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER,null));
+			}
 			layout();
 		}
 

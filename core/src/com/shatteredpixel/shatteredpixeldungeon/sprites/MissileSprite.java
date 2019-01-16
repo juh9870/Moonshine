@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class MissileSprite extends ItemSprite implements Tweener.Listener {
 
-	private static final float SPEED	= 240f;
+	public static final float SPEED	= 240f;
 	
 	private Callback callback;
 	

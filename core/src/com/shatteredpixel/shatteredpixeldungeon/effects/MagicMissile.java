@@ -20,6 +20,7 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.*;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
@@ -35,7 +36,9 @@ import com.watabou.utils.Random;
 
 public class MagicMissile extends Emitter {
 
-	private static final float SPEED	= 200f;
+	public static final float SPEED	= 200f;
+
+	public float curSpeed = SPEED;
 	
 	private Callback callback;
 	
@@ -54,10 +57,12 @@ public class MagicMissile extends Emitter {
 	public static final int SHADOW          = 7;
 	public static final int RAINBOW         = 8;
 	public static final int SMOKE         	= 9;
+	public static final int INVISIBLE       = 10;
 
 	public static final int FIRE_CONE       = 100;
 	public static final int FOLIAGE_CONE    = 101;
-	
+	public static final int FOLIAGE_SNAKE   = 102;
+
 	public void reset( int type, int from, int to, Callback callback ) {
 		reset( type,
 				DungeonTilemap.raisedTileCenterToWorld( from ),
@@ -78,7 +83,6 @@ public class MagicMissile extends Emitter {
 				DungeonTilemap.raisedTileCenterToWorld( to ),
 				callback);
 	}
-
 	public void reset( int type, PointF from, PointF to, Callback callback ) {
 		this.callback = callback;
 		
@@ -90,7 +94,7 @@ public class MagicMissile extends Emitter {
 		height = 0;
 		
 		PointF d = PointF.diff( to, from );
-		PointF speed = new PointF( d ).normalize().scale( SPEED );
+		PointF speed = new PointF( d ).normalize().scale( curSpeed );
 		sx = speed.x;
 		sy = speed.y;
 		time = d.length() / SPEED;
@@ -138,9 +142,16 @@ public class MagicMissile extends Emitter {
 				size( 10 );
 				pour( LeafParticle.GENERAL, 0.03f );
 				break;
+			case FOLIAGE_SNAKE:
+				size( 16 );
+				pour( LeafParticle.LEVEL_SPECIFIC, 0.0f );
+				break;
 			case SMOKE:
 				size( 10 );
 				pour( SmokeParticle.FACTORY, 0.03f );
+				break;
+			case INVISIBLE:
+				size( 0 );
 				break;
 		}
 	}
@@ -159,6 +170,16 @@ public class MagicMissile extends Emitter {
 		} else {
 			missile.reset(type, sprite, to, callback);
 		}
+	}
+
+	public static void boltFromCell(int type, int from, int to, float speed, Callback callback){
+		MagicMissile missile = ((MagicMissile)CellEmitter.get(from).parent.recycle( MagicMissile.class ));
+		missile.curSpeed=speed;
+		missile.reset(type,from,to,callback);
+	}
+	public static void boltFromCell(int type, int from, int to, Callback callback){
+		MagicMissile missile = ((MagicMissile)CellEmitter.get(from).parent.recycle( MagicMissile.class ));
+		missile.reset(type,from,to,callback);
 	}
 	
 	@Override
