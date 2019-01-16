@@ -57,6 +57,8 @@ public enum Icons {
 	LANGS,
 	CHALLENGE_OFF,
 	CHALLENGE_ON,
+	BTN_RIGHT,
+	BTN_LEFT,
 	RESUME;
 
 	public Image get() {
@@ -158,6 +160,12 @@ public enum Icons {
 			break;
 		case CHALLENGE_ON:
 			icon.frame( icon.texture.uvRect( 92, 12, 108, 24 ) );
+			break;
+		case BTN_RIGHT:
+			icon.frame( icon.texture.uvRect( 107, 15, 116, 33 ) );
+			break;
+		case BTN_LEFT:
+			icon.frame( icon.texture.uvRect( 116, 15, 125, 33 ) );
 			break;
 		case RESUME:
 			icon.frame( icon.texture.uvRect( 13, 53, 24, 64 ) );

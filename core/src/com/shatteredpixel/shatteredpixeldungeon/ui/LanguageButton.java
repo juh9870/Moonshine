@@ -24,6 +24,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndSpecialSettings;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -95,10 +96,11 @@ public class LanguageButton extends Button {
 
 	@Override
 	protected void onClick() {
-		//TODO fix this when language support is added
-		parent.add(new WndMessage("Language support is not currently functional due to issues porting the new text system.\n\n" +
-				"The desktop version will remain updated for the time being, but in English only.\n\n" +
-				"A fix will be released for this in time, thanks for your patience."));
+//		//TODO fix this when language support is added
+//		parent.add(new WndMessage("Language support is not currently functional due to issues porting the new text system.\n\n" +
+//				"The desktop version will remain updated for the time being, but in English only.\n\n" +
+//				"A fix will be released for this in time, thanks for your patience."));
+		parent.add(new WndSpecialSettings());
 	}
 
 }

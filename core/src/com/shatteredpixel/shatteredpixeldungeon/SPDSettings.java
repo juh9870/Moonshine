@@ -139,23 +139,32 @@ public class SPDSettings extends GameSettings {
 	public static final String KEY_FLIPTAGS 	= "flip_tags";
 	public static final String KEY_BARMODE		= "toolbar_mode";
 	public static final String KEY_AIMTYPE		= "aimtype";
+	public static final String KEY_CHROME		= "chrome";
 
 	public static void quickSlots( int value ){ put( KEY_QUICKSLOTS, value ); }
-	
+
 	public static int quickSlots(){ return getInt( KEY_QUICKSLOTS, 4, 0, 4); }
-	
+
 	public static void flipToolbar( boolean value) {
 		put(KEY_FLIPTOOLBAR, value );
 	}
-	
+
 	public static boolean flipToolbar(){ return getBoolean(KEY_FLIPTOOLBAR, false); }
-	
+
 	public static void flipTags( boolean value) {
 		put(KEY_FLIPTAGS, value );
 	}
-	
+
 	public static boolean flipTags(){ return getBoolean(KEY_FLIPTAGS, false); }
 
+
+	public static void chromeStyle(int value){
+		put(KEY_CHROME,value);
+	}
+
+	public static int chromeStyle(){
+		return getInt(KEY_CHROME,0)%Chrome.chromeStyles.length;
+	}
 
 	public static void aimType(int value){
 		put(KEY_AIMTYPE,value);
