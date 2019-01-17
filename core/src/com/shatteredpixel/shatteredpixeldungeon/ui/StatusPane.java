@@ -22,6 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.input.GameAction;
@@ -72,7 +73,10 @@ public class StatusPane extends Component {
 	@Override
 	protected void createChildren() {
 
-		bg = new NinePatch( Assets.STATUS, 0, 0, 128, 36, 85, 0, 45, 0 );
+		int dx=SPDSettings.chromeStyle()%4*128;
+		int dy=SPDSettings.chromeStyle()/4*64;
+
+		bg = new NinePatch( Assets.STATUS, 0+dx, 0+dy, 128, 36, 85, 0, 45, 0 );
 		add( bg );
 
 		add( new TouchArea<GameAction>( 0, 1, 31, 31 ) {

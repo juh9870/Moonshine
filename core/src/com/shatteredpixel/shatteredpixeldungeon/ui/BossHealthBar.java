@@ -22,6 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BloodParticle;
 import com.watabou.noosa.Image;
@@ -51,16 +52,21 @@ public class BossHealthBar extends Component {
 
 	@Override
 	protected void createChildren() {
-		bar = new Image(asset, 0, 0, 64, 16);
+
+
+		int dx=SPDSettings.chromeStyle()%4*64;
+		int dy=SPDSettings.chromeStyle()/4*32;
+
+		bar = new Image(asset, 0+dx, 0+dy, 64, 16);
 		add(bar);
 
 		width = bar.width;
 		height = bar.height;
 
-		hp = new Image(asset, 15, 19, 47, 4);
+		hp = new Image(asset, 15+dx, 19+dy, 47, 4);
 		add(hp);
 
-		skull = new Image(asset, 5, 18, 6, 6);
+		skull = new Image(asset, 5+dx, 18+dy, 6, 6);
 		add(skull);
 
 		blood = new Emitter();
