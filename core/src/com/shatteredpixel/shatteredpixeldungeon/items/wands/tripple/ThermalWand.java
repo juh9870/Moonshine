@@ -40,7 +40,7 @@ public class ThermalWand extends TrippleEffectWand {
 		secondEffect = new FrostEffect();
 		neutralEffect = new NeutralEffect();
 		randomizeEffect();
-		image = ItemSpriteSheet.WAND_FIREBOLT;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 	}
 
 	private static final int aoeBallisticaParams = Ballistica.STOP_TARGET|Ballistica.STOP_TERRAIN|Ballistica.PIERCE_LOS_BLOCKING;

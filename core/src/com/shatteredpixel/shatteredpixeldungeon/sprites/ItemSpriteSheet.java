@@ -325,8 +325,8 @@ public class  ItemSpriteSheet {
 
 	private static final int WANDS              =                           xy(1, 14);  //16 slots
 	public static final int WAND_MAGIC_MISSILE  = WANDS+0;
-	public static final int WAND_FIREBOLT       = WANDS+1;
-	public static final int WAND_FROST          = WANDS+2;
+	public static final int WAND_FLUID          = WANDS+1;
+	public static final int WAND_CIRCULAR       = WANDS+2;
 	public static final int WAND_LIGHTNING      = WANDS+3;
 	public static final int WAND_DISINTEGRATION = WANDS+4;
 	public static final int WAND_PRISMATIC_LIGHT= WANDS+5;

@@ -36,7 +36,7 @@ public class CircularWand extends TrippleEffectWand {
 		firstEffect=new LightEffect();
 		secondEffect=new StormEffect();
 
-		image=ItemSpriteSheet.WAND_FROST;
+		image=ItemSpriteSheet.WAND_CIRCULAR;
 		randomizeEffect();
 
 		collisionProperties=Ballistica.STOP_TERRAIN | Ballistica.STOP_TARGET | Ballistica.PIERCE_LOS_BLOCKING;

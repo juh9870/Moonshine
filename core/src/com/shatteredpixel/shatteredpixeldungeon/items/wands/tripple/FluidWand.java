@@ -28,7 +28,7 @@ public class FluidWand extends TrippleEffectWand {
 		firstEffect=new RootEffect();
 		secondEffect = new GasEffect();
 		neutralEffect=new NormalEffect();
-		image=ItemSpriteSheet.WAND_REGROWTH;
+		image=ItemSpriteSheet.WAND_FLUID;
 		randomizeEffect();
 
 		collisionProperties=Ballistica.STOP_TERRAIN | Ballistica.STOP_TARGET | Ballistica.PIERCE_LOS_BLOCKING;
