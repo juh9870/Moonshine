@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class WandOfDisintegration extends DamageWand {
 
 	{
-		image = ItemSpriteSheet.WAND_DISINTEGRATION;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 
 		collisionProperties = Ballistica.WONT_STOP;
 	}

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class WandOfLightning extends DamageWand {
 
 	{
-		image = ItemSpriteSheet.WAND_LIGHTNING;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 	}
 	
 	private ArrayList<Char> affected = new ArrayList<>();

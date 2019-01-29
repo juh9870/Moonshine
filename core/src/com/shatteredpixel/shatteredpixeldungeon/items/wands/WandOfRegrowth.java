@@ -53,7 +53,7 @@ import java.util.Iterator;
 public class WandOfRegrowth extends Wand {
 
 	{
-		image = ItemSpriteSheet.WAND_REGROWTH;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 
 		collisionProperties = Ballistica.STOP_TERRAIN;
 	}

@@ -50,7 +50,7 @@ import com.watabou.utils.Random;
 public class WandOfPrismaticLight extends DamageWand {
 
 	{
-		image = ItemSpriteSheet.WAND_PRISMATIC_LIGHT;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 
 		collisionProperties = Ballistica.MAGIC_BOLT;
 	}

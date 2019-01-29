@@ -56,7 +56,7 @@ import com.watabou.utils.Random;
 public class WandOfTransfusion extends Wand {
 
 	{
-		image = ItemSpriteSheet.WAND_TRANSFUSION;
+		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 
 		collisionProperties = Ballistica.PROJECTILE;
 	}
