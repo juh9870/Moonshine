@@ -101,7 +101,6 @@ public class WandOfPrismaticLight extends DamageWand {
 
 			ch.damage(dmg, this);
 		}
-
 	}
 
 	private void affectMap(Ballistica beam){

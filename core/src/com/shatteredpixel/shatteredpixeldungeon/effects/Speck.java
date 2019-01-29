@@ -63,7 +63,9 @@ public class Speck extends Image {
 	public static final int FORGE		= 112;
 	public static final int CONFUSION	= 113;
 	public static final int RED_LIGHT   = 114;
-	
+	public static final int DEWGAS   	= 115;
+	public static final int STORMGAS   	= 116;
+
 	private static final int SIZE = 7;
 	
 	private int type;
@@ -109,6 +111,8 @@ public class Speck extends Image {
 		case PARALYSIS:
 		case STENCH:
 		case CONFUSION:
+		case DEWGAS:
+		case STORMGAS:
 		case DUST:
 			frame( film.get( STEAM ) );
 			break;
@@ -318,6 +322,19 @@ public class Speck extends Image {
 			acc.y = 256;
 			lifespan = -speed.y / acc.y * 2;
 			break;
+
+		case DEWGAS:
+			hardlight( 0x6666DD );
+			angularSpeed = -30;
+			angle = Random.Float( 360 );
+			lifespan = Random.Float( 1f, 3f );
+			break;
+		case STORMGAS:
+			hardlight( 0x111122 );
+			angularSpeed = -30;
+			angle = Random.Float( 360 );
+			lifespan = Random.Float( 1f, 3f );
+			break;
 		}
 		
 		left = lifespan;
@@ -415,6 +432,8 @@ public class Speck extends Image {
 			case PARALYSIS:
 			case CONFUSION:
 			case DUST:
+			case DEWGAS:
+			case STORMGAS:
 				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) * 0.5f );
 				scale.set( 1 + p );
 				break;

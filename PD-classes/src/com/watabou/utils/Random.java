@@ -90,6 +90,20 @@ public class Random {
 		return rand.nextBoolean();
 	}
 
+	//return number rounded randomly up or down
+	public static int round(float num){
+		return (int)(Boolean()?Math.floor(num):Math.ceil(num));
+	}
+
+	//return number rounded randomly up or down, the closer the number ti integer the higher chance that it will be rounded to it.
+	public static int roundWeighted(float num){
+		if(num>0)
+			return (int)(chances(new float[]{1-num%1,num%1})==0?Math.floor(num):Math.ceil(num));
+		else
+			return (int)(chances(new float[]{1+num%1,-(num%1)})==0?Math.ceil(num):Math.floor(num));
+
+	}
+
 	//returns an index from chances, the probability of each index is the weight values in changes
 	public static int chances( float[] chances ) {
 		

@@ -40,12 +40,14 @@ public class PotionOfPurity extends Potion {
 	
 	private static final int DISTANCE	= 3;
 	
-	private static ArrayList<Class> affectedBlobs;
+	public static ArrayList<Class> affectedBlobs;
+
+	static{
+		affectedBlobs = new ArrayList<>(new BlobImmunity().immunities());
+	}
 
 	{
 		initials = 9;
-		
-		affectedBlobs = new ArrayList<>(new BlobImmunity().immunities());
 	}
 
 	@Override

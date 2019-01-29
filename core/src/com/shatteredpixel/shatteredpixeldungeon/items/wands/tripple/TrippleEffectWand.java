@@ -63,7 +63,8 @@ public abstract class TrippleEffectWand extends Wand {
 		super.execute(hero, action);
 
 		if (action.equals(AC_IMBUE)) {
-			imbue = Math.max(1, 2 - imbue);
+			if (imbue==1)imbue=2;
+			else imbue=1;
 		}
 	}
 
@@ -71,6 +72,10 @@ public abstract class TrippleEffectWand extends Wand {
 	protected void wandUsed() {
 		randomizeEffect();
 		super.wandUsed();
+	}
+	public void updateLevel() {
+		maxCharges = Math.min( initialCharges() + level(), 500 );
+		curCharges = Math.min( curCharges, maxCharges );
 	}
 
 	protected float[] effectsChances() {

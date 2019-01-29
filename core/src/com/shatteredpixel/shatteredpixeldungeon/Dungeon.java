@@ -200,6 +200,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 		
 		depth = 0;
+		if (SPDSettings.debug)depth=15;
 		gold = 0;
 		rune= Runes.random();
 

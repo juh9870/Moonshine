@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
@@ -549,10 +550,6 @@ public abstract class Level implements Bundlable {
 			avoid[i]		= (flags & Terrain.AVOID) != 0;
 			water[i]		= (flags & Terrain.LIQUID) != 0;
 			pit[i]			= (flags & Terrain.PIT) != 0;
-
-			if (Dungeon.hero.heroClass==HeroClass.HUNTRESS && map[i]==Terrain.HIGH_GRASS){
-				losBlocking[i]=false;
-			}
 		}
 		
 		int lastRow = length() - width();
@@ -613,8 +610,6 @@ public abstract class Level implements Bundlable {
 		level.avoid[cell]			= (flags & Terrain.AVOID) != 0;
 		level.pit[cell]			    = (flags & Terrain.PIT) != 0;
 		level.water[cell]			= terrain == Terrain.WATER;
-
-		if (Dungeon.hero.heroClass==HeroClass.HUNTRESS && level.map[cell]==Terrain.HIGH_GRASS)level.losBlocking[cell]=false;
 	}
 	
 	public Heap drop( Item item, int cell ) {
@@ -816,11 +811,28 @@ public abstract class Level implements Bundlable {
 		boolean sighted = c.buff( Blindness.class ) == null && c.buff( Shadows.class ) == null
 						&& c.buff( TimekeepersHourglass.timeStasis.class ) == null && c.isAlive();
 		if (sighted) {
-			ShadowCaster.castShadow( cx, cy, fieldOfView, c.viewDistance );
+			boolean[] blocking;
+
+			if (c instanceof Hero && ((Hero) c).heroClass == HeroClass.HUNTRESS) {
+				blocking = Dungeon.level.losBlocking.clone();
+				for (int i = 0; i < blocking.length; i++){
+					if (blocking[i] && (Dungeon.level.map[i] == Terrain.HIGH_GRASS)){
+						blocking[i] = false;
+					}
+				}
+			} else {
+				blocking = Dungeon.level.losBlocking;
+			}
+
+			int viewDist = c.viewDistance;
+			if (c instanceof Hero && ((Hero) c).subClass == HeroSubClass.SNIPER) viewDist *= 1.5f;
+
+			ShadowCaster.castShadow( cx, cy, fieldOfView, blocking, viewDist );
 		} else {
 			BArray.setFalse(fieldOfView);
 		}
-		
+
+
 		int sense = 1;
 		//Currently only the hero can get mind vision
 		if (c.isAlive() && c == Dungeon.hero) {

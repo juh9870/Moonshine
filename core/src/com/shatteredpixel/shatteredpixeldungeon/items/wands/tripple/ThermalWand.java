@@ -7,12 +7,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.FlameParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SnowParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ballistica.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -57,11 +61,13 @@ public class ThermalWand extends TrippleEffectWand {
 				if (new Ballistica(target.collisionPos,cell, aoeBallisticaParams,true).collisionPos!=cell)continue;
 
 				if (!Dungeon.level.flamable[cell] &&
-						(Dungeon.level.solid[cell] || Dungeon.level.pit[cell])) return;
+						(Dungeon.level.solid[cell] || Dungeon.level.pit[cell])) continue;
 
 				Char ch = Actor.findChar(cell);
-				if (ch instanceof Mob && ((Mob) ch).alignment == Char.Alignment.ENEMY){
+				if (ch==curUser)continue;
+				if (ch!=null){
 					GameScene.add(Blob.seed(cell, 1, Fire.class));
+					processSoulMark(ch, chargesPerCast());
 					CellEmitter.get(cell).burst(FlameParticle.FACTORY, 2);
 				}
 				validCells.add(cell);
@@ -100,11 +106,37 @@ public class ThermalWand extends TrippleEffectWand {
 			for (int c : aoe) {
 				int cell = target.collisionPos + c;
 				if (new Ballistica(target.collisionPos,cell, aoeBallisticaParams,true).collisionPos!=cell)continue;
+				if (Actor.findChar(cell)==curUser)continue;
 				if (!Dungeon.level.solid[cell] && !Dungeon.level.pit[cell]) validCells.add(cell);
 			}
 			for (int cell : validCells) {
-				GameScene.add(Blob.seed(cell, augmented ? 8 : 4, Freezing.class));
-				CellEmitter.get(cell).start(SnowParticle.FACTORY, .1f, 6);
+				Heap heap = Dungeon.level.heaps.get(cell);
+				if (heap != null) {
+					heap.freeze();
+				}
+
+				float duration = level()+2;
+
+				if (augmented)duration*=1.333;
+
+				Char ch = Actor.findChar(cell);
+				if (ch != null){
+					if (ch.buff(Frost.class) != null || ch.buff(Chill.class) != null){
+						return; //do nothing, can't affect a frozen target
+					} else {
+						ch.sprite.burst( 0xFF99CCFF, level() / 2 + 2 );
+					}
+
+					processSoulMark(ch, chargesPerCast());
+
+					if (ch.isAlive()){
+						if (Dungeon.level.water[ch.pos])
+							Buff.prolong(ch, Chill.class, 2+duration);
+						else
+							Buff.prolong(ch, Chill.class, duration);
+					}
+				}
+				GameScene.add(Blob.seed(cell,(int)duration,Freezing.class));
 			}
 
 			neutralEffect.onZap(target);
@@ -157,6 +189,8 @@ public class ThermalWand extends TrippleEffectWand {
 		public void onZap(Ballistica target) {
 			for (int c : PathFinder.NEIGHBOURS9) {
 				int cell = target.collisionPos + c;
+				Dungeon.level.press(cell,null,true);
+				if (cell==curUser.pos)continue;
 				Char targ;
 				if ((targ = Actor.findChar(cell)) != null) {
 					targ.damage(damageRoll(), this);

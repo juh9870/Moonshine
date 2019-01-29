@@ -24,6 +24,7 @@ import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
@@ -37,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.tripple.CircularWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.tripple.FluidWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.tripple.ThermalWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
@@ -108,12 +110,19 @@ public enum HeroClass {
 		w.cursed=w.cursedKnown=true;
 		w.collect();
 		new ThrowingKnife().upgrade(3).identify().collect();
-		new FluidWand().identify().collect();
+		new ThermalWand().upgrade(11).identify().collect();
+		new FluidWand().upgrade(11).identify().collect();
+		new CircularWand().upgrade(11).identify().collect();
 		new GunslingerPistol().identify().upgrade(3).collect();
 		new Bullet(300).collect();
-		PowderHorn i = new PowderHorn();
-		i.fill();
+		Item i = new PlateArmor().identify();
+		i.level(100);
 		i.collect();
+		i = new PowderHorn();
+		((PowderHorn)i).fill();
+		i.collect();
+		hero.lvl=30;
+		hero.updateHT(true);
 	}
 
 	public Badges.Badge masteryBadge() {

@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.StormGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -67,7 +68,7 @@ public abstract class Char extends Actor {
 	protected PathFinder.Path path;
 
 	public int paralysed	    = 0;
-	public boolean rooted		= false;
+	public int rooted			= 0;
 	public boolean flying		= false;
 	public int invisible		= 0;
 	
@@ -533,7 +534,7 @@ public abstract class Char extends Actor {
 				new HashSet<Class>( Arrays.asList(Burning.class, Blazing.class))),
 		ACIDIC ( new HashSet<Class>( Arrays.asList(ToxicGas.class, Corrosion.class)),
 				new HashSet<Class>( Arrays.asList(Ooze.class))),
-		ELECTRIC ( new HashSet<Class>( Arrays.asList(WandOfLightning.class, Shocking.class, Potential.class, Electricity.class)),
+		ELECTRIC ( new HashSet<Class>( Arrays.asList(WandOfLightning.class, Shocking.class, Potential.class, Electricity.class, StormGas.class)),
 				new HashSet<Class>()),
 		IMMOVABLE;
 		

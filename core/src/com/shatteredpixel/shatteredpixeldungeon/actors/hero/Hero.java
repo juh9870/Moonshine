@@ -995,8 +995,10 @@ public class Hero extends Char {
 		if (target == pos)
 			return false;
 
-		if (rooted) {
+		if (rooted>0) {
 			Camera.main.shake( 1, 1f );
+			if (visibleEnemies.size()==0)
+				Dungeon.hero.spendAndNext(1);
 			return false;
 		}
 		

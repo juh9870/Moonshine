@@ -62,6 +62,7 @@ public class MagicMissile extends Emitter {
 	public static final int FIRE_CONE       = 100;
 	public static final int FOLIAGE_CONE    = 101;
 	public static final int FOLIAGE_SNAKE   = 102;
+	public static final int FOLIAGE_SPECIFIC= 103;
 
 	public void reset( int type, int from, int to, Callback callback ) {
 		reset( type,
@@ -97,7 +98,7 @@ public class MagicMissile extends Emitter {
 		PointF speed = new PointF( d ).normalize().scale( curSpeed );
 		sx = speed.x;
 		sy = speed.y;
-		time = d.length() / SPEED;
+		time = d.length() / curSpeed;
 
 		switch(type){
 			case MAGIC_MISSILE: default:
@@ -118,6 +119,10 @@ public class MagicMissile extends Emitter {
 			case FOLIAGE:
 				size( 4 );
 				pour( LeafParticle.GENERAL, 0.01f );
+				break;
+			case FOLIAGE_SPECIFIC:
+				size( 4 );
+				pour( LeafParticle.LEVEL_SPECIFIC, 0.01f );
 				break;
 			case FORCE:
 				pour( SlowParticle.FACTORY, 0.01f );
@@ -143,8 +148,8 @@ public class MagicMissile extends Emitter {
 				pour( LeafParticle.GENERAL, 0.03f );
 				break;
 			case FOLIAGE_SNAKE:
-				size( 16 );
-				pour( LeafParticle.LEVEL_SPECIFIC, 0.0f );
+				size( 8 );
+				pour( LeafParticle.LEVEL_SPECIFIC, 0.01f );
 				break;
 			case SMOKE:
 				size( 10 );

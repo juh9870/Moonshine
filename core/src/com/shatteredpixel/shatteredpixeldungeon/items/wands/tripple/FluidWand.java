@@ -4,8 +4,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SpikyRoots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.DeadlyFluidGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SpikyRoots;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
@@ -38,12 +40,10 @@ public class FluidWand extends TrippleEffectWand {
 			super.affectCell(cell);
 
 			Char ch = Actor.findChar(cell);
-			if (ch!=null &&
-					(imbue!=1 || ch.alignment==Char.Alignment.ENEMY)
-					) {
-				int strength = 3 + level();
-				if (imbue == 1) strength *= 1.5f;
-				GameScene.add(Blob.seed(cell, strength, SpikyRoots.class));
+			if (ch!=null && ch!=curUser) {
+				int strength = (3 + level());
+				if (imbue == 1) strength *= 1.333f;
+				Buff.affect(ch,SpikyRoots.class).set(strength,level()+1);
 			}
 		}
 	}
@@ -52,10 +52,12 @@ public class FluidWand extends TrippleEffectWand {
 		protected void affectCell(int cell) {
 			super.affectCell(cell);
 
-			int strength = (5 + level());
-			if (imbue==2)strength*=1.5f;
+			int strength = 5 + level();
+			if (imbue==2)strength*=1.333f;
 
-			GameScene.add( Blob.seed( cell, strength, ToxicGas.class ) );
+			DeadlyFluidGas g = Blob.seed( cell, strength, DeadlyFluidGas.class );
+			g.setStrength(level()+1);
+			GameScene.add( g );
 		}
 	}
 
@@ -94,7 +96,7 @@ public class FluidWand extends TrippleEffectWand {
 		private void moveSnake(ArrayList<Integer> snake, int index){
 			if (index<snake.size()-1) {
 				MagicMissile.boltFromCell(
-						MagicMissile.FOLIAGE,
+						MagicMissile.FOLIAGE_SNAKE,
 						snake.get(index),
 						snake.get(index+1),
 						100,
@@ -167,7 +169,7 @@ public class FluidWand extends TrippleEffectWand {
 		@Override
 		protected void fx(Ballistica bolt, Callback callback) {
 			MagicMissile.boltFromChar(curUser.sprite.parent,
-					MagicMissile.FOLIAGE,
+					MagicMissile.FOLIAGE_SPECIFIC,
 					curUser.sprite,
 					bolt.collisionPos,
 					callback);
