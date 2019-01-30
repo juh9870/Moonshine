@@ -327,11 +327,13 @@ public class  ItemSpriteSheet {
 	public static final int WAND_MAGIC_MISSILE  = WANDS+0;
 	public static final int WAND_FLUID          = WANDS+1;
 	public static final int WAND_CIRCULAR       = WANDS+2;
+	public static final int WAND_THERMAL        = WANDS+3;
 	public static final int WAND_DISINTEGRATION = WANDS+4;
 	static {
-		assignItemRect(WAND_MAGIC_MISSILE,     14, 14);
+		assignItemRect(WAND_MAGIC_MISSILE,     14, 13);
 		assignItemRect(WAND_FLUID,             15, 15);
 		assignItemRect(WAND_CIRCULAR,          15, 13);
+		assignItemRect(WAND_THERMAL,           14, 14);
 		assignItemRect(WAND_DISINTEGRATION,    14, 11);
 	}
 
