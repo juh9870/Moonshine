@@ -122,7 +122,7 @@ public class ThermalWand extends TrippleEffectWand {
 				Char ch = Actor.findChar(cell);
 				if (ch != null){
 					if (ch.buff(Frost.class) != null || ch.buff(Chill.class) != null){
-						return; //do nothing, can't affect a frozen target
+						continue; //do nothing, can't affect a frozen target
 					} else {
 						ch.sprite.burst( 0xFF99CCFF, level() / 2 + 2 );
 					}

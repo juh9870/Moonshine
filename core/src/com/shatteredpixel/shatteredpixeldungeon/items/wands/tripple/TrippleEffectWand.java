@@ -231,11 +231,7 @@ public abstract class TrippleEffectWand extends Wand {
 							GLog.n(Messages.get(Wand.class, "curse_discover", curWand.name()));
 						}
 					} else {
-						curEffect.fx(shot, new Callback() {
-							public void call() {
-								curEffect.onZap(shot);
-							}
-						});
+						curEffect.fx(shot, () -> curEffect.onZap(shot));
 					}
 
 					Invisibility.dispel();
