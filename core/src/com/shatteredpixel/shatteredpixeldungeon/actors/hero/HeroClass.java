@@ -68,7 +68,7 @@ public enum HeroClass {
 		hero.heroClass = this;
 
 		initCommon( hero );
-		if (SPDSettings.debug)initDev( hero );
+		if (SPDSettings.debug) initDev( hero );
 
 		switch (this) {
 			case WARRIOR:

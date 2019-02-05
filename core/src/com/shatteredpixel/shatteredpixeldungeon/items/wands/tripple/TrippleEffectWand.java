@@ -44,10 +44,10 @@ public abstract class TrippleEffectWand extends Wand {
 	public WandEffect curEffect;
 
 
-	@Override
-	protected int initialCharges() {
-		return 500;
-	}
+	// @Override
+	// protected int initialCharges() {
+		// return 500;
+	// }
 
 
 	@Override

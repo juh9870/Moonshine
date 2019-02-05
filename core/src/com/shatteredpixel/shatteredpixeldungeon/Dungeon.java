@@ -200,7 +200,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 		
 		depth = 0;
-		if (SPDSettings.debug)depth=15;
+		if (SPDSettings.debug)depth=63;
 		gold = 0;
 		rune= Runes.random();
 
@@ -297,6 +297,9 @@ public class Dungeon {
 			break;
 		case 26:
 			level = new LastLevel();
+			break;
+		case 64:
+			level = new TestLevel();
 			break;
 		default:
 			level = new DeadEndLevel();
