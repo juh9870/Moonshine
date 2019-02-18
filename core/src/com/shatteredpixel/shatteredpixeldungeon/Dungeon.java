@@ -199,8 +199,8 @@ public class Dungeon {
 		quickslot.reset();
 		QuickSlotButton.reset();
 		
-		depth = 0;
-		if (SPDSettings.debug)depth=63;
+		depth = 63;
+		//if (SPDSettings.debug)depth=63;
 		gold = 0;
 		rune= Runes.random();
 

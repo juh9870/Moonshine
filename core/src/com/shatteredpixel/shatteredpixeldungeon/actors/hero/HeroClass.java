@@ -110,9 +110,10 @@ public enum HeroClass {
 		w.cursed=w.cursedKnown=true;
 		w.collect();
 		new ThrowingKnife().upgrade(3).identify().collect();
-		new ThermalWand().upgrade(11).identify().collect();
-		new FluidWand().upgrade(11).identify().collect();
-		new CircularWand().upgrade(11).identify().collect();
+		new Boomerang().upgrade(0).identify().collect();
+		new ThermalWand().upgrade(1).identify().collect();
+		new FluidWand().upgrade(1).identify().collect();
+		new CircularWand().upgrade(1).identify().collect();
 		new GunslingerPistol().identify().upgrade(3).collect();
 		new Bullet(300).collect();
 		Item i = new PlateArmor().identify();
