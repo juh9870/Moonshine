@@ -21,6 +21,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -93,12 +95,19 @@ public class Boomerang extends MissileWeapon {
 	@Override
 	protected void rangedMiss( int cell ) {
 		circleBack( cell, curUser );
-		Mob m = new Rat();
-		m.pos = cell;
-		GameScene.add(m);
 	}
 
-	private void circleBack( int from, Hero owner ) {
+	@Override
+	protected void rangedLand(int cell) {
+		Mob m = new Rat();
+		m.pos = cell;
+		m.state=m.SLEEPING;
+		Buff.affect(m,Paralysis.class,10);
+		GameScene.add(m);
+		circleBack( cell, curUser );
+	}
+
+	private void circleBack(int from, Hero owner ) {
 
 		((MissileSprite)curUser.sprite.parent.recycle( MissileSprite.class )).
 				reset( from, owner.sprite, curItem, null );

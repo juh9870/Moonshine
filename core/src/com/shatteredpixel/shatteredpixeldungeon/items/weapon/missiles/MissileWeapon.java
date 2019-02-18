@@ -188,7 +188,6 @@ abstract public class MissileWeapon extends MeleeWeapon {
     @Override
     public boolean isPlaceholder() {
         return ammo<=0;
-//        return false;
     }
 
     @Override
@@ -197,9 +196,13 @@ abstract public class MissileWeapon extends MeleeWeapon {
     }
 
     protected void rangedMiss(int cell ) {
-        super.onThrow(cell);
+        rangedLand(cell);
         curUser.spendAndNext(castDelay(curUser,cell));
     }
+
+    protected void rangedLand(int cell){
+		super.onThrow(cell);
+	}
 
     protected void rangedHit( Char enemy, int cell ){
         if (enemy.isAlive()&&Random.Float()<stickChance()){
@@ -245,7 +248,7 @@ abstract public class MissileWeapon extends MeleeWeapon {
     protected void onThrow( int cell ) {
         Char enemy = Actor.findChar( cell );
         if (enemy == null || enemy == curUser) {
-            super.onThrow( cell );
+            rangedLand(cell);
             curUser.spendAndNext(castDelay(curUser,cell));
         } else {
             throwing=true;
