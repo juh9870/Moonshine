@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.tripple.FluidWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.tripple.ThermalWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.BallsOfSteel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -122,6 +123,10 @@ public enum HeroClass {
 		i = new PowderHorn();
 		((PowderHorn)i).fill();
 		i.collect();
+
+		i=new BallsOfSteel();
+		i.identify().collect();
+
 		hero.lvl=30;
 		hero.updateHT(true);
 	}

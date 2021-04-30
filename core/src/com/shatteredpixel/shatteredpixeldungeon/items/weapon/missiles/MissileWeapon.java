@@ -44,11 +44,6 @@ abstract public class MissileWeapon extends MeleeWeapon {
     }
 
     @Override
-    public int image() {
-        return super.image();
-    }
-
-    @Override
     public int max(int lvl) {
         return throwing?rangedBounds(lvl)[1]:meleeBounds(lvl)[1];
     }
